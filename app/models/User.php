@@ -3,7 +3,11 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
+use Jenssegers\Mongodb\Model as Eloquent; // Use MongoDB
+
 class User extends Eloquent implements UserInterface, RemindableInterface {
+
+	protected $fillable = ['email', 'password', 'first_name', 'last_name'];
 
 	/**
 	 * The database table used by the model.
@@ -47,6 +51,26 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	public function getReminderEmail()
 	{
 		return $this->email;
+	}
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
+
+	/**
+	 * Return a collection of athlete models for a given user.
+	 *
+	 * @return array
+	 */
+	public function athletes()
+	{
+		return $this->hasMany('Athlete');
+	}
+
+	public function trampolineRoutines()
+	{
+		return $this->hasMany('TrampolineRoutine');
 	}
 
 }

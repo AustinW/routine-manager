@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://localhost',
+	'url' => 'http://routine-manager.dev',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'QJzOaSzcCumV5bN5TvDAEff12jNxms1v',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -113,6 +113,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
+
+		'Jenssegers\Mongodb\MongodbServiceProvider',
 
 	),
 

@@ -19,8 +19,20 @@ App::before(function($request)
 
 App::after(function($request, $response)
 {
-	//
+	// Note that you cannot use wildcard domains when doing CORS with Authorization!
+	$response->headers->set('Access-Control-Allow-Origin', '*');
+	$response->headers->set('Access-Control-Allow-Credentials', 'true');
+    $response->headers->set('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Cache-Control, Content-Type');
+    
+    return $response;
 });
+
+// App::error(function(Exception $e) {
+// 	return Response::json([
+// 		'message' => $e->getMessage(),
+// 		'exception' => get_class($e)
+// 	], 500);
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +47,7 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Response::json(array('message' => 'Authentication required.'), 401);
 });
 
 

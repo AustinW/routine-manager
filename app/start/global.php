@@ -81,3 +81,14 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require The Validations File
+|--------------------------------------------------------------------------
+|
+| We need to add the custom validations file.
+|
+*/
+
+require app_path().'/validations.php';

@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'database',
+			'database'  => 'routine_manager_api',
 			'username'  => 'root',
-			'password'  => '',
+			'password'  => 'KqAn/h(CN32+Fy!dxgZq',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -81,6 +81,15 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'prefix'   => '',
+		),
+
+		'mongodb' => array(
+			'driver'   => 'mongodb',
+			'host'     => 'localhost',
+			'port'     => 27017,
+			'username' => 'username',
+			'password' => 'password',
+			'database' => 'routine_manager'
 		),
 
 	),

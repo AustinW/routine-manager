@@ -11,7 +11,8 @@ class BaseController extends Controller {
 	{
 		if ( ! is_null($this->layout))
 		{
-			$this->layout = View::make($this->layout);
+			$this->layout = View::make($this->layout)
+				->with('user_link', '<a href="' . URL::action('UserController@index') . '">' . Auth::user()->email . '</a>');
 		}
 	}
 
