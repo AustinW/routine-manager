@@ -70,20 +70,10 @@ Route::post('login', array('as' => 'login', 'uses' => 'AccountController@postLog
 // 	return ['status' => 'success', 'message' => 'Welcome, ' . Auth::user()->first_name];
 // });
 
-Route::get('test', function() {
-	var_dump(Skill::massageFigString('800 o'));
-	var_dump(Skill::massageFigString('801 o'));
-	var_dump(Skill::massageFigString('823 /'));
-	var_dump(Skill::massageFigString('12.0.0.0 >'));
-	var_dump(Skill::massageFigString('12.1.0.1 >'));
-	var_dump(Skill::massageFigString('12.0.0.3 >'));
-	var_dump(Skill::massageFigString('160000 o'));
-	var_dump(Skill::massageFigString('43/'));
-	var_dump(Skill::massageFigString('700 >'));
-	var_dump(Skill::massageFigString('12.0.0.0 >'));
-	var_dump(Skill::massageFigString('12.0.0.0 >'));
-	var_dump(Skill::massageFigString('12.0.0.0 >'));
-
+Route::get('test/{id}', function($id) {
+	$athlete = Athlete::find('525b46c94c84a35459000000');
+	$routine = $athlete->traPrelimOptional;
+	dd($routine);
 });
 
 Event::listen('illuminate.query', function($sql, $bindings) {

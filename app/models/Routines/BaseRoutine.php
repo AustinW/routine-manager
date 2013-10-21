@@ -44,7 +44,7 @@ class BaseRoutine extends \BaseModel
             // If the skill was identified, convert the model to an array and append
             if ($fuzzySkill) {
 
-                // Need to convert to 
+                // Need to convert to skill object
                 $analysis->skills[] = $fuzzySkill->toArray();
 
             } else {
@@ -59,5 +59,17 @@ class BaseRoutine extends \BaseModel
         }
 
         return $analysis;
+    }
+
+    public function totalDifficulty($event)
+    {
+        $total = 0.0;
+
+        foreach ($this->skills as $skill) {
+            $skill = (array) $skill;
+            $total += $skill[$event];
+        }
+        
+        return $total;
     }
 }

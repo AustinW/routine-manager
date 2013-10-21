@@ -30,8 +30,18 @@ class TrampolineRoutine extends BaseRoutine implements RoutineRepository
 		$this->belongsToMany('Athlete');
 	}
 
+	public function athleteTraPrelimCompulsory()  { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_compulsory'); }
+	public function athleteTraPrelimOptional()    { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_optional'); }
+	public function athleteTraSemiFinalOptional() { return $this->hasOne('Routines\TrampolineRoutine', 'tra_semi_final_optional'); }
+	public function athleteTraFinalOptional()     { return $this->hasOne('Routines\TrampolineRoutine', 'tra_final_optional'); }
+
 	public function assignSkills(\SkillAnalysis $skillAnalysis)
 	{
 		$this->skills = $skillAnalysis->skills;
+	}
+
+	public function totalDifficulty($event = 'trampoline_difficulty')
+	{
+		return parent::totalDifficulty($event);
 	}
 }

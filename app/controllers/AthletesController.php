@@ -1,13 +1,25 @@
 <?php
 
+use \Routines\TrampolineRoutine;
+use \Routines\DoubleMiniPass;
+use \Routines\TumblingPass;
+use \Routines\SynchroRoutine;
+use \Routines\BaseRoutine;
+
 class AthletesController extends BaseController
 {
-	protected $athleteRepository, $trampolineRoutineRepository;
+	protected $athleteRepository;
 
-	public function __construct(Athlete $athleteRepository, TrampolineRoutine $trampolineRoutineRepository)
+	protected $trampolineRoutineRepository, $doubleMiniPassRepository, $tumblingPassRepository, $synchroRoutineRepository;
+
+	public function __construct(Athlete $athleteRepository, TrampolineRoutine $trampolineRoutineRepository, DoubleMiniPass $doubleMiniPassRepository, TumblingPass $tumblingPassRepository, SynchroRoutine $synchroRoutineRepository)
 	{
-		$this->athleteRepository = $athleteRepository;
+		$this->athleteRepository           = $athleteRepository;
+
 		$this->trampolineRoutineRepository = $trampolineRoutineRepository;
+		$this->doubleMiniPassRepository    = $doubleMiniPassRepository;
+		$this->tumblingPassRepository      = $tumblingPassRepository;
+		$this->synchroRoutineRepository    = $synchroRoutineRepository;
 
 		$this->beforeFilter('auth');
 	}
@@ -22,7 +34,7 @@ class AthletesController extends BaseController
 		if ($id) {
 			return $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->_id)->first();
 		} else {
-			return $this->athleteRepository->where('user_id', Auth::user()->_id)->whereNull('deleted_at')->get();
+			return $this->athleteRepository->with('prelimOptional')->where('user_id', Auth::user()->_id)->whereNull('deleted_at')->get();
 		}
 	}
 
@@ -132,9 +144,9 @@ class AthletesController extends BaseController
 		if ( ! $athlete)
 			return Response::json(['message' => 'Problem retrieving the athlete specified.'], 401);
 
-		$athlete->{Input::get('which')} = $routine->_id;
-
-		$athlete->save();
+		$key = 'athlete' . ucwords(Str::camel(Input::get('which')));
+		$routine->$key()->save($athlete);
+		// $athlete->{Str::camel(Input::get('which'))}()->save($routine);
 
 		return $athlete;
 	}

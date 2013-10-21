@@ -7,8 +7,6 @@ Validator::resolver(function($translator, $data, $rules, $messages)
 
 class CustomValidator extends Illuminate\Validation\Validator {
 
-	protected $skillModel;
-
 	public function validateCount($attribute, $value, $parameters)
 	{
 		return count($value) == (int) $parameters[0];
@@ -25,6 +23,11 @@ class CustomValidator extends Illuminate\Validation\Validator {
 		}
 
 		return true;
+	}
+
+	public function validateSkill($attribute, $value, $parameters)
+	{
+		return (App::make('Skill')->validSkill($value));
 	}
 
 	protected function replaceCount($message, $attribute, $rule, $parameters)

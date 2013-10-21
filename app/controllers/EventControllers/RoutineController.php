@@ -3,6 +3,8 @@
 namespace EventControllers;
 
 use \Auth;
+use \Input;
+use \Response;
 use \Routines\RoutineRepository;
 
 abstract class RoutineController extends \BaseController {
@@ -69,7 +71,7 @@ abstract class RoutineController extends \BaseController {
 		if ($routine) {
 			return Response::json(['message' => 'Routine created.', 'id' => $routine->_id], 201);
 		} else {
-			return Response::json(['message' => 'Problem creating athlete'], 500);
+			return Response::json(['message' => 'Problem creating routine.'], 500);
 		}
 	}
 

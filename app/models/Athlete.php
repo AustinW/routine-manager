@@ -34,10 +34,10 @@ class Athlete extends BaseModel
 		return $this->belongsTo('User');
 	}
 
-	public function prelimCompulsory()  { return $this->hasOne('TrampolineRoutine'); }
-	public function prelimOptional()    { return $this->hasOne('TrampolineRoutine'); }
-	public function semiFinalOptional() { return $this->hasOne('TrampolineRoutine'); }
-	public function finalOptional()     { return $this->hasOne('TrampolineRoutine'); }
+	public function traPrelimCompulsory()  { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_compulsory'); }
+	public function traPrelimOptional()    { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_optional'); }
+	public function traSemiFinalOptional() { return $this->hasOne('Routines\TrampolineRoutine', 'tra_semi_final_optional'); }
+	public function traFinalOptional()     { return $this->hasOne('Routines\TrampolineRoutine', 'tra_final_optional'); }
 
 	public function name() { return $this->first_name . ' ' . $this->last_name; }
 

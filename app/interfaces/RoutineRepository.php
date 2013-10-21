@@ -9,4 +9,6 @@ interface RoutineRepository
 	public function athletes();
 
 	public function assignSkills(\SkillAnalysis $skillAnalysis);
+
+	public function totalDifficulty();
 }
