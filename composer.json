@@ -4,8 +4,8 @@
     "license": "proprietary",
 
     "require": {
-        "laravel/framework": "4.0.*",
-        "jenssegers/mongodb": "*"
+        "laravel/framework": "4.1.*",
+        "jenssegers/mongodb": "1.1.*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",

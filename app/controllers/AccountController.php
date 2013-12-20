@@ -9,16 +9,29 @@ class AccountController extends BaseController {
 		$this->user = $user;
 	}
 
+	public function getIndex()
+	{
+		return View::make('account/index');
+	}
+
+	public function getLogin()
+	{
+		return View::make('account/login');
+	}
+
 	public function postLogin()
 	{
 		$validation = Validator::make(Input::all(), ['email' => 'required|email', 'password' => 'required']);
 
 		if ($validation->fails()) {
-			return Response::json(['message' => $validation->messages()->all()], 412);
+			alert_error($validation->messages()->all());
+
+			return Redirect::to('account/login');
 		}
 
 		if (Auth::check()) {
-			return Response::json(['message' => 'User is already logged in.'], 400);
+			alert_warning('You are already logged in');
+			return Redirect::to('account');
 		}
 
 		$credentials = [
@@ -34,15 +47,23 @@ class AccountController extends BaseController {
 			
 			if (!$verified) {
 				Auth::logout();
-				return Response::json(['message' => 'You must verify your account before logging in.'], 403);
+
+				alert_error('The account you\'re trying to login to has not been verified.');
+
+				return Redirect::to('account/login');
 			} else {
-				return Response::json(['message' => 'Login successful.', 'user' => Auth::user()->toArray()]);
+
+				alert_success('Login successful');
+				
+				return Redirect::to('account');
 			}
 
 		} else {
 			Auth::logout();
 
-			return Response::json(['message' => 'Login unsuccessful. Invalid credentials.'], 403);
+			alert_error('Login unsuccessful. Invalid credentials.');
+
+			return Redirect::to('account/login');
 		}
 	}
 
@@ -50,7 +71,14 @@ class AccountController extends BaseController {
 	{
 		Auth::logout();
 
-		return Response::json(['message' => 'Logout successful']);
+		alert_info('You have been logged out.');
+
+		return Redirect::to('/');
+	}
+
+	public function getRegister()
+	{
+		return View::make('account/register');
 	}
 
 	public function postRegister()
@@ -67,7 +95,7 @@ class AccountController extends BaseController {
 
 		if ($validation->fails()) {
 
-			return Response::json(['message' => $validation->messages()->all()], 412);
+			return Redirect::to('account/register')->withErrors($validation)->withInput($input);
 
 		} else {
 
@@ -81,7 +109,11 @@ class AccountController extends BaseController {
 			// Fire off an event that a user is registered (maybe fire off an email?)
 			Event::fire('account.registered', [$newUser]);
 
-			return Response::json(['message' => 'Registration successful', 'id' => $newUser->_id], 201);
+			Auth::login($newUser);
+
+			alert_success('You have successfully registered and are now logged in.');
+
+			return Redirect::to('/');
 		}
 	}
 }

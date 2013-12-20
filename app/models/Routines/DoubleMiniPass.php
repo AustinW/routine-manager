@@ -40,15 +40,10 @@ class DoubleMiniPass extends BaseRoutine implements RoutineRepository
 		return $result;
 	}
 
-	public function user()
-	{
-		$this->belongsTo('User');
-	}
-
-	public function athletes()
-	{
-		$this->belongsToMany('Athlete');
-	}
+	public function athleteDmtPass1() { return $this->hasOne('Routines\DoubleMiniPass', 'dmt_pass_1'); }
+	public function athleteDmtPass2() { return $this->hasOne('Routines\DoubleMiniPass', 'dmt_pass_2'); }
+	public function athleteDmtPass3() { return $this->hasOne('Routines\DoubleMiniPass', 'dmt_pass_3'); }
+	public function athleteDmtPass4() { return $this->hasOne('Routines\DoubleMiniPass', 'dmt_pass_4'); }
 
 	public function assignSkills(SkillAnalysis $skillAnalysis)
 	{

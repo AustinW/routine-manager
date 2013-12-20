@@ -32,9 +32,13 @@ class AthletesController extends BaseController
 	public function index($id = null)
 	{
 		if ($id) {
-			return $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->_id)->first();
+			$athlete = $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->_id)->first();
+
+			return View::make('athletes/viewOne')->with('athlete', $athlete);
 		} else {
-			return $this->athleteRepository->with('prelimOptional')->where('user_id', Auth::user()->_id)->whereNull('deleted_at')->get();
+			$athletes = $this->athleteRepository->where('user_id', Auth::user()->_id)->whereNull('deleted_at')->get();
+
+			return View::make('athletes/viewMany')->with('athletes', $athletes);
 		}
 	}
 
@@ -70,9 +74,31 @@ class AthletesController extends BaseController
 	 */
 	public function show($id)
 	{
-		$athlete = $this->athleteRepository->find($id);
+		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
 
-		return ($athlete) ? $athlete : Response::json(['message' => 'Specified athlete (' . $id . ') could not be found.'], 404);
+		if ($athlete) {
+
+			if ($athlete->trampoline_level) {
+				$athlete->traPrelimCompulsory()->get();
+				$athlete->traPrelimOptional()->get();
+				$athlete->traSemiFinalOptional()->get();
+				$athlete->traFinalOptional()->get();
+			}
+
+			return View::make('athletes/viewOne')->with('athlete', $athlete);
+
+		} else {
+
+			return View::make('athletes/error')->with('message', Lang::get('athlete.not_found'));
+		}
+
+	}
+
+	public function edit($id)
+	{
+		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
+
+		return View::make('athletes/edit')->with('athlete', $athlete);
 	}
 
 	/**

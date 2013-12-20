@@ -52,7 +52,7 @@ class Athlete extends BaseModel
             throw new Exception('Authenticated session must be established before accessing this method.');
         }
 
-        return self::where('id', $id)->where('user_id', Auth::user()->id);
+        return self::where('_id', $id)->where('user_id', Auth::user()->_id)->whereNull('deleted_at');
     }
 
 	// public function getBirthdayAttribute($value)

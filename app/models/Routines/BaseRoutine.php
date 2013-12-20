@@ -29,6 +29,9 @@ class BaseRoutine extends \BaseModel
         'syn_final_optional',
     ];
 
+    public function user()     { return $this->belongsTo('User'); }
+    public function athletes() { return $this->belongsToMany('Athlete'); }
+
 	public function analyzeSkills()
     {
     	$skillRepository = App::make('Skill');
