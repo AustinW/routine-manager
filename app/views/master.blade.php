@@ -166,6 +166,7 @@
   @section('js')
   <script src="{{ asset('assets/js/libs/jquery-1.9.1.js') }}"></script>
   <script src="{{ asset('assets/js/libs/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
   @show
 
 </body>

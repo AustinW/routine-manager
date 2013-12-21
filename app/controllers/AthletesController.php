@@ -97,8 +97,21 @@ class AthletesController extends BaseController
 	public function edit($id)
 	{
 		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
+		$synchroPartners = $this->athleteRepository->synchroPartnerArray(
+			$this->athleteRepository->excludeAthlete(Auth::user()->athletes()->get(), Auth::user()->_id)
+		);
+		
+		$trampolineRoutines = $this->trampolineRoutineRepository->routinesForUser(Auth::user()->_id)->get();
+		$doubleMiniPasses = $this->doubleMiniPassRepository->routinesForUser(Auth::user()->_id)->get();
+		$tumblingPasses = $this->tumblingPassRepository->routinesForUser(Auth::user()->_id)->get();
 
-		return View::make('athletes/edit')->with('athlete', $athlete);
+		return View::make('athletes/edit')->with([
+			'athlete'            => $athlete,
+			'synchroPartners'    => $synchroPartners,
+			'trampolineRoutines' => $this->trampolineRoutineRepository->simpleRoutineArray($trampolineRoutines),
+			'doubleMiniPasses'   => $this->doubleMiniPassRepository->simpleRoutineArray($doubleMiniPasses),
+			'tumblingPasses'     => $this->tumblingPassRepository->simpleRoutineArray($tumblingPasses),
+		]);
 	}
 
 	/**
@@ -112,9 +125,9 @@ class AthletesController extends BaseController
 
 		if ( ! $athlete) return Response::json(['message' => 'Specified athlete (' . $id . ') could not be found.'], 404);
 
-		$attributes = $athlete->getAttributes();
+		$attributes = array_keys(Athlete::$rules);
 
-		foreach ($attributes as $key => $value) {
+		foreach ($attributes as $key) {
 			if (Input::has($key)) $athlete->$key = Input::get($key);
 		}
 
@@ -122,7 +135,9 @@ class AthletesController extends BaseController
 
 		$athlete->save();
 
-		return $athlete;
+		alert_success($athlete->name() . ' has been updated.');
+
+		return Redirect::route('athletes.show', $athlete->_id);
 	}
 
 	/**

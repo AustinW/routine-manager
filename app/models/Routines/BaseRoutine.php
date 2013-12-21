@@ -7,72 +7,88 @@ use \SkillAnalysis;
 
 class BaseRoutine extends \BaseModel
 {
-    public static $whichRoutineFields = [
-        'tra_prelim_compulsory',
-        'tra_prelim_optional',
-        'tra_semi_final_optional',
-        'tra_final_optional',
+	public static $whichRoutineFields = [
+		'tra_prelim_compulsory',
+		'tra_prelim_optional',
+		'tra_semi_final_optional',
+		'tra_final_optional',
 
-        'dmt_pass1',
-        'dmt_pass2',
-        'dmt_pass3',
-        'dmt_pass4',
+		'dmt_pass1',
+		'dmt_pass2',
+		'dmt_pass3',
+		'dmt_pass4',
 
-        'tum_pass1',
-        'tum_pass2',
-        'tum_pass3',
-        'tum_pass4',
+		'tum_pass1',
+		'tum_pass2',
+		'tum_pass3',
+		'tum_pass4',
 
-        'syn_prelim_compulsory',
-        'syn_prelim_optional',
-        'syn_semi_final_optional',
-        'syn_final_optional',
-    ];
+		'syn_prelim_compulsory',
+		'syn_prelim_optional',
+		'syn_semi_final_optional',
+		'syn_final_optional',
+	];
 
-    public function user()     { return $this->belongsTo('User'); }
-    public function athletes() { return $this->belongsToMany('Athlete'); }
+	public function user()     { return $this->belongsTo('User'); }
+	public function athletes() { return $this->belongsToMany('Athlete'); }
 
 	public function analyzeSkills()
-    {
-    	$skillRepository = App::make('Skill');
+	{
+		$skillRepository = App::make('Skill');
 
-        $analysis = new SkillAnalysis();
+		$analysis = new SkillAnalysis();
 
-        // Loop through each skill of the routine
-        foreach ($this->skills as $index => $skill) {
+		// Loop through each skill of the routine
+		foreach ($this->skills as $index => $skill) {
 
-            // Perform a fuzzy search to identify the skill given
-            $fuzzySkill = $skillRepository->fuzzyFind($skill);
+			// Perform a fuzzy search to identify the skill given
+			$fuzzySkill = $skillRepository->fuzzyFind($skill);
 
-            // If the skill was identified, convert the model to an array and append
-            if ($fuzzySkill) {
+			// If the skill was identified, convert the model to an array and append
+			if ($fuzzySkill) {
 
-                // Need to convert to skill object
-                $analysis->skills[] = $fuzzySkill->toArray();
+				// Need to convert to skill object
+				$analysis->skills[] = $fuzzySkill->toArray();
 
-            } else {
+			} else {
 
-                $analysis->errors[] = ['index' => $index, 'skill' => $skill];
+				$analysis->errors[] = ['index' => $index, 'skill' => $skill];
 
-            }
-        }
+			}
+		}
 
-        if ($analysis->problem()) {
-            $analysis->message = 'There was an issue analyzing the inputted skills.';
-        }
+		if ($analysis->problem()) {
+			$analysis->message = 'There was an issue analyzing the inputted skills.';
+		}
 
-        return $analysis;
-    }
+		return $analysis;
+	}
 
-    public function totalDifficulty($event)
-    {
-        $total = 0.0;
+	public function totalDifficulty($event)
+	{
+		$total = 0.0;
 
-        foreach ($this->skills as $skill) {
-            $skill = (array) $skill;
-            $total += $skill[$event];
-        }
-        
-        return $total;
-    }
+		foreach ($this->skills as $skill) {
+			$skill = (array) $skill;
+			$total += $skill[$event];
+		}
+		
+		return $total;
+	}
+
+	public function routinesForUser($user_id)
+	{
+		return static::where('user_id', $user_id)->whereNull('deleted_at');
+	}
+
+	public static function simpleRoutineArray($collection, $withEmpty = true)
+	{
+		$routines = ($withEmpty) ? ['' => 'None'] : [];
+
+		foreach ($collection as $routine) {
+			$routines[$routine->_id] = $routine->name;
+		}
+
+		return $routines;
+	}
 }
