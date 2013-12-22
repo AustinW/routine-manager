@@ -31,14 +31,17 @@
         ]
     },
     "scripts": {
-        "pre-update-cmd": [
-            "php artisan clear-compiled"
-        ],
         "post-install-cmd": [
-            "php artisan optimize"
+            "$_ artisan optimize"
+        ],
+        "pre-update-cmd": [
+            "$_ artisan clear-compiled"
         ],
         "post-update-cmd": [
-            "php artisan optimize"
+            "$_ artisan optimize"
+        ],
+        "post-create-project-cmd": [
+            "$_ artisan key:generate"
         ]
     },
     "config": {
