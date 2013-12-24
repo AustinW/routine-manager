@@ -73,7 +73,7 @@ Route::post('login', array('as' => 'login', 'uses' => 'AccountController@postLog
 Route::get('test/{id}', function($id) {
 	$athlete = Athlete::find('525b46c94c84a35459000000');
 	$routine = $athlete->traPrelimOptional;
-	dd($routine);
+	dd($routine, Config::get('database.default'), Config::get('database'));
 });
 
 Event::listen('illuminate.query', function($sql, $bindings) {
