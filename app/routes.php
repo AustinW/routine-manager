@@ -71,6 +71,9 @@ Route::post('login', array('as' => 'login', 'uses' => 'AccountController@postLog
 // });
 
 Route::get('test/{id}', function($id) {
+	echo nl2br(print_r(Config::get('database.default'), true));
+	echo nl2br(print_r(Config::get('database'), true));
+	die();
 	dd(Config::get('database.default'), Config::get('database'));
 	$athlete = Athlete::find('525b46c94c84a35459000000');
 	$routine = $athlete->traPrelimOptional;
