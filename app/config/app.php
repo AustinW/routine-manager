@@ -107,7 +107,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
-		//'Jenssegers\Mongodb\MongodbServiceProvider',
+		'Jenssegers\Mongodb\MongodbServiceProvider',
 
 	),
 
