@@ -158,6 +158,4 @@
 
 </div>
 
-{{var_dump($athlete)}}
-
 @endsection
