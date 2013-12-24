@@ -60,6 +60,7 @@
                 @else
                 <li>{{ link_to('account/login', 'Login') }}</li>
                 <li>{{ link_to('account/Register', 'Register') }}</li>
+                @endif
               </ul>
             </li>
           </ul>
