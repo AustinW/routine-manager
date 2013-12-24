@@ -17,10 +17,10 @@ function alert_warning($message, $title = '<i class="fa fa-info-circle"></i>', $
 }
 
 function set_alert($message, $title, $type, $class) {
-	Session::flash('alert', [
+	Session::flash('alert', array(
 		'type'    => $type,
 		'title'   => $title,
 		'message' => $message,
 		'class'   => $class,
-	]);
+	));
 }
