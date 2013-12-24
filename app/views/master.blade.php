@@ -50,10 +50,18 @@
                 <li><a href="#">View</a></li>
               </ul>
             </li>
-            <li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><i class="icon-user"></i> <strong>Austin White</strong></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                @if (Auth::check())
+                <li><a href="#"><i class="icon-user"></i> <strong>{{ Auth::user()->name() }}</strong></a></li>
+                @else
+                <li>{{ link_to('account/login', 'Login') }}</li>
+                <li>{{ link_to('account/Register', 'Register') }}</li>
+              </ul>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

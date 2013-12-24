@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'mongodb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -85,10 +85,10 @@ return array(
 
 		'mongodb' => array(
 			'driver'   => 'mongodb',
-			'host'     => 'localhost',
-			'port'     => 27017,
-			'username' => 'username',
-			'password' => 'password',
+			'host'     => 'ds061198.mongolab.com',
+			'port'     => 61198,
+			'username' => 'austinw',
+			'password' => '8CpKKrTdJbGbfM3A',
 			'database' => 'routine_manager'
 		),
 
