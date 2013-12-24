@@ -99,3 +99,7 @@ Route::options('{resource?}/{id?}/{var1?}/{var2?}', function() {
     $response->headers->set('Access-Control-Allow-Headers', 'X-Requested-With, Authorization');
     return $response;
 });
+
+Route::get('phpinfo', function() {
+	phpinfo();
+});
