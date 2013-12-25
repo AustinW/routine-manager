@@ -20,7 +20,6 @@ web1:
     - vendor
   after_build:
     - "if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; php composer.phar install --prefer-source"
-    - "php composer.phar update"
   after_deploy:
     - "php artisan cache:clear"
     - "rm -f app/storage/views/*"
