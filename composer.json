@@ -3,6 +3,13 @@
     "description": "Routine Manager allows coaches and athletes to structure their team and keep track of routines as well as performance.",
     "license": "proprietary",
 
+    "repositories":
+    [
+        {
+            "type": "vcs",
+            "url": "https://github.com/AustinW/Laravel-MongoDB"
+        }
+    ],
     "require": {
         "laravel/framework": "4.1.*",
         "jenssegers/mongodb": "1.1.*"
