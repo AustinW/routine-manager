@@ -21,15 +21,14 @@ Route::get('create-athlete', function() {
 
 	$athlete = new Athlete([
 		'usag_id' => '071720',
-		'first_name' => 'Austin',
-		'last_name' => 'White',
-		'gender' => 'male',
-		'birthday' => '1988-05-20',
-		'trampoline_level' => 'sr',
-		'doublemini_level' => 'sr',
+		'first_name' => 'Dalainey',
+		'last_name' => 'Glowacki',
+		'gender' => 'female',
+		'birthday' => '1993-12-15',
+		'tumbling_level' => '9',
 		'notes' => '',
-		'created_at' => '2013-06-10 15:37:17',
-		'updated_at' => '2013-06-10 15:37:17',
+		'created_at' => '2013-12-26 15:37:17',
+		'updated_at' => '2013-12-26 15:37:17',
 	]);
 
 	$athlete = Auth::user()->athletes()->save($athlete);
@@ -69,6 +68,16 @@ Route::post('login', array('as' => 'login', 'uses' => 'AccountController@postLog
 
 // 	return ['status' => 'success', 'message' => 'Welcome, ' . Auth::user()->first_name];
 // });
+Route::get('attach', function() {
+	$austin = Athlete::find('525b46c94c84a35459000000');
+	$dalainey = Athlete::find('52bca9694c84a3de02000000');
+
+	$routine = Routines\TrampolineRoutine::find('526596a84c84a3f505000000');
+
+	$austin->traPrelimCompulsory()->associate($routine);
+
+
+});
 
 Route::get('test/{id}', function($id) {
 	echo nl2br(print_r(Config::get('database.default'), true));

@@ -56,10 +56,11 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 @if (Auth::check())
-                <li><a href="#"><i class="icon-user"></i> <strong>{{ Auth::user()->name() }}</strong></a></li>
+                <li><a href="#"><i class="fa fa-user"></i> <strong>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</strong></a></li>
+                <li><a href="{{ URL::to('account/logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
                 @else
-                <li>{{ link_to('account/login', 'Login') }}</li>
-                <li>{{ link_to('account/Register', 'Register') }}</li>
+                <li><a href="{{ URL::to('account/login') }}"><i class="fa fa-sign-in"></i> Login</a></li>
+                <li><a href="{{ URL::to('account/Register') }}"><i class="fa fa-edit"></i> Register</a></li>
                 @endif
               </ul>
             </li>

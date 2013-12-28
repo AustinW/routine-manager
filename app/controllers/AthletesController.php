@@ -80,9 +80,8 @@ class AthletesController extends BaseController
 
 			if ($athlete->trampoline_level) {
 				$compulsory = $athlete->traPrelimCompulsory()->get();
+				$optional = $athlete->traPrelimOptional()->get();
 			}
-
-			dd($athlete, $compulsory);
 
 			return View::make('athletes/viewOne')->with('athlete', $athlete);
 
