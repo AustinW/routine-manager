@@ -82,6 +82,8 @@ Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
 	Route::resource('athletes', 'AthletesController');
 
 	Route::get('athletes/{athleteId}/{event}', 'AthletesController@getRoutinesForEvent');
+
+	Route::resource('routines', 'RoutinesController');
 });
 
 // Route::any('bypass', function() {

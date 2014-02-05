@@ -7,6 +7,8 @@ class Routine extends \BaseModel
 {
 	protected $softDelete = true;
 
+	protected $fillable = array('name', 'description', 'type');
+
 	public static $whichRoutineFields = [
 		'tra_prelim_compulsory',
 		'tra_prelim_optional',
@@ -28,6 +30,11 @@ class Routine extends \BaseModel
 		'syn_semi_final_optional',
 		'syn_final_optional',
 	];
+
+	public static $rules = array(
+        'type'   => 'in:trampoline,doublemini,tumbling,synchro',
+        'name'   => 'required',
+    );
 
 	/*
 	|--------------------------------------------------------------------------

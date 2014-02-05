@@ -35,6 +35,11 @@ class Skill extends BaseModel
         }
     }
 
+    public static function invalidSkill($skill)
+    {
+        return ! self::validSkill($skill);
+    }
+
     public static function fuzzyFind($skillName, $exact = false)
     {
         if ( ! $exact) {

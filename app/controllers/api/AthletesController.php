@@ -79,27 +79,6 @@ class AthletesController extends BaseController
 
 	}
 
-	// public function edit($id)
-	// {
-	// 	$athlete = $this->athleteRepository->findCheckOwner($id)->first();
-		
-	// 	$synchroPartners = $this->athleteRepository->synchroPartnerArray(
-	// 		$this->athleteRepository->excludeAthlete(Auth::user()->athletes()->get(), Auth::user()->getKey())
-	// 	);
-		
-	// 	$trampolineRoutines = $this->trampolineRoutineRepository->routinesForUser(Auth::user()->getKey())->get();
-	// 	$doubleMiniPasses = $this->doubleMiniPassRepository->routinesForUser(Auth::user()->getKey())->get();
-	// 	$tumblingPasses = $this->tumblingPassRepository->routinesForUser(Auth::user()->getKey())->get();
-
-	// 	return View::make('athletes/edit')->with([
-	// 		'athlete'            => $athlete,
-	// 		'synchroPartners'    => $synchroPartners,
-	// 		'trampolineRoutines' => $this->trampolineRoutineRepository->simpleRoutineArray($trampolineRoutines),
-	// 		'doubleMiniPasses'   => $this->doubleMiniPassRepository->simpleRoutineArray($doubleMiniPasses),
-	// 		'tumblingPasses'     => $this->tumblingPassRepository->simpleRoutineArray($tumblingPasses),
-	// 	]);
-	// }
-
 	/**
 	 * Update the specified resource in storage.
 	 *
