@@ -5,7 +5,7 @@ class UserTableSeeder extends \Illuminate\Database\Seeder
 	public function run()
 	{
         // First delete everything in the table
-        DB::statement('TRUNCATE TABLE users');
+        // DB::statement('TRUNCATE TABLE users');
 
 		$users = [
 			[

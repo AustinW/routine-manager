@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTumblingRoutinesTable extends Migration {
+class CreateRoutinesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,14 +11,19 @@ class CreateTumblingRoutinesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('tumbling_routines', function($table)
+		Schema::create('routines', function($table)
 		{
 			$table->increments('id');
-			$table->integer('user_id')->index();
+			$table->integer('user_id')->unsigned()->index();
 			$table->string('name', 50);
 			$table->string('description')->nullable();
 			$table->boolean('locked')->default(0);
+
+            $table->softDeletes();
+
 			$table->timestamps();
+
+			$table->foreign('user_id')->references('id')->on('users');
 		});
 	}
 
@@ -29,7 +34,7 @@ class CreateTumblingRoutinesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tumbling_routines');
+		Schema::drop('routines');
 	}
 
 }

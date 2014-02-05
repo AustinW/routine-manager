@@ -2,7 +2,9 @@
 
 return array(
 
-	'default' => 'mongodb',
+	'default' => 'mysql',
+
+	'log'     => true,
 
 	'connections' => array(
 

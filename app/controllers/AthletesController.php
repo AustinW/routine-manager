@@ -32,11 +32,11 @@ class AthletesController extends BaseController
 	public function index($id = null)
 	{
 		if ($id) {
-			$athlete = $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->_id)->first();
+			$athlete = $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->id)->first();
 
 			return View::make('athletes/viewOne')->with('athlete', $athlete);
 		} else {
-			$athletes = $this->athleteRepository->where('user_id', Auth::user()->_id)->whereNull('deleted_at')->get();
+			$athletes = $this->athleteRepository->where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
 
 			return View::make('athletes/viewMany')->with('athletes', $athletes);
 		}
@@ -61,7 +61,7 @@ class AthletesController extends BaseController
 		$newAthlete->save();
 
 		if ($newAthlete) {
-			return Response::json(['message' => 'Athlete created.', 'id' => $newAthlete->_id], 201);
+			return Response::json(['message' => 'Athlete created.', 'id' => $newAthlete->id], 201);
 		} else {
 			return Response::json(['message' => 'Problem creating athlete'], 500);
 		}

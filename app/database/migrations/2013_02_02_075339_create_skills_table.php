@@ -20,7 +20,7 @@ class CreateSkillsTable extends Migration {
 			$table->float('tumbling_difficulty');
 			$table->string('fig', 15)->index();
 			$table->enum('flip_direction', ['f', 'b']);
-			$table->boolean('occurrence');
+			$table->tinyInteger('occurrence');
 		});
 	}
 

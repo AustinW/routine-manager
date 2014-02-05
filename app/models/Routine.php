@@ -1,12 +1,12 @@
 <?php
 
-namespace Routines;
-
 use \App;
 use \SkillAnalysis;
 
-class BaseRoutine extends \BaseModel
+class Routine extends \BaseModel
 {
+	protected $softDelete = true;
+
 	public static $whichRoutineFields = [
 		'tra_prelim_compulsory',
 		'tra_prelim_optional',
@@ -29,8 +29,24 @@ class BaseRoutine extends \BaseModel
 		'syn_final_optional',
 	];
 
+	/*
+	|--------------------------------------------------------------------------
+	| Relationships
+	|--------------------------------------------------------------------------
+	|
+	| Eloquent ORM Relationships
+	|
+	*/
 	public function user()     { return $this->belongsTo('User'); }
 	public function athletes() { return $this->belongsToMany('Athlete'); }
+	public function skills()   { return $this->belongsToMany('Skill')->withPivot('order_index'); }
+
+	// Trampoline scoped queries
+	public function scopeTraPrelimCompulsory($query)  { return $query->where('routine_type', '=', 'tra_prelim_compulsory'); }
+	public function scopeTraPrelimOptional($query)    { return $query->where('routine_type', '=', 'tra_prelim_optional'); }
+	public function scopeTraSemiFinalOptional($query) { return $query->where('routine_type', '=', 'tra_semi_final_optional'); }
+	public function scopeTraFinalOptional($query)     { return $query->where('routine_type', '=', 'tra_final_optional'); }
+
 
 	public function analyzeSkills()
 	{
@@ -90,5 +106,32 @@ class BaseRoutine extends \BaseModel
 		}
 
 		return $routines;
+	}
+
+	public static function descriptiveRoutineType($routineType)
+	{
+		$descriptions = array_combine(self::$whichRoutineFields, array(
+			'trampoline prelim compulsory',
+			'trampoline prelim optional',
+			'trampoline semi final optional',
+			'trampoline final optional',
+
+			'double mini pass 1',
+			'double mini pass 2',
+			'double mini pass 3',
+			'double mini pass 4',
+
+			'tumbling pass 1',
+			'tumbling pass 2',
+			'tumbling pass 3',
+			'tumbling pass 4',
+
+			'synchro prelimcompulsory',
+			'synchro prelimoptional',
+			'synchro semifinaloptional',
+			'synchro finaloptional',
+		));
+
+		return $descriptions[$routineType];
 	}
 }

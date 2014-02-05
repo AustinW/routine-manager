@@ -37,24 +37,6 @@ Log::useDailyFiles(storage_path().'/logs/'.$logFile);
 
 /*
 |--------------------------------------------------------------------------
-| Application Error Handler
-|--------------------------------------------------------------------------
-|
-| Here you may handle any errors that occur in your application, including
-| logging them or displaying custom views for specific errors. You may
-| even register several error handlers to handle different types of
-| exceptions. If nothing is returned, the default error view is
-| shown, which includes a detailed stack trace during debug.
-|
-*/
-
-App::error(function(Exception $exception, $code)
-{
-	Log::error($exception);
-});
-
-/*
-|--------------------------------------------------------------------------
 | Maintenance Mode Handler
 |--------------------------------------------------------------------------
 |
@@ -92,3 +74,25 @@ require app_path().'/filters.php';
 */
 
 require app_path().'/validations.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require the Response Macro File
+|--------------------------------------------------------------------------
+|
+| Response macros are defined in the macros.php file and loaded here
+|
+*/
+
+require app_path().'/macros.php';
+
+/*
+|--------------------------------------------------------------------------
+| Require the Errors File
+|--------------------------------------------------------------------------
+|
+| Error handlers located in app/errors.php
+|
+*/
+
+require app_path().'/errors.php';

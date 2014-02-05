@@ -4,8 +4,8 @@ class SkillTableSeeder extends \Illuminate\Database\Seeder
 {
 	public function run()
 	{
-        // First delete everything in the table
-        DB::collection('skills')->delete();
+        // First delete everything in the table (Mongo)
+        // DB::collection('skills')->delete();
 
 		$skills = [
 			[
@@ -1180,7 +1180,7 @@ class SkillTableSeeder extends \Illuminate\Database\Seeder
             $slugName = $skill['name'];
             $slugFig = $skill['fig'];
 
-            Redis::hset('skills:name:' . $slugName, '_id', $skillObj->_id);
+            Redis::hset('skills:name:' . $slugName, 'id', $skillObj->_id);
             Redis::hset('skills:name:' . $slugName, 'name', $skillObj->name);
             Redis::hset('skills:name:' . $slugName, 'trampoline_difficulty', $skillObj->trampoline_difficulty);
             Redis::hset('skills:name:' . $slugName, 'doublemini_difficulty', $skillObj->doublemini_difficulty);

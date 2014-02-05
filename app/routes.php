@@ -62,6 +62,28 @@ Route::any('routines/{id}/skills', 'RoutinesController@showSkills');
 
 Route::post('login', array('as' => 'login', 'uses' => 'AccountController@postLogin'));
 
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Routing prefixed for API
+|
+| NOTE: ALL CONTROLLERS HERE ARE UNDER 'Api' NAMESPACE SO NO COLLISIONS
+|
+*/
+
+Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
+	
+	Route::controller('account', 'AccountController');
+
+	Route::put('athletes/{athleteId}/{routineType}/{routineId}', 'AthletesController@putAssociate')
+		->where(array('athleteId' => '[0-9]+', 'routineType' => '[a-z_]+', 'routineId' => '[0-9]+'));
+	Route::resource('athletes', 'AthletesController');
+
+	Route::get('athletes/{athleteId}/{event}', 'AthletesController@getRoutinesForEvent');
+});
+
 // Route::any('bypass', function() {
 // 	Auth::logout();
 // 	Auth::loginUsingId('5232521cafb0784dac0f3d0a', true);
@@ -87,10 +109,6 @@ Route::get('test/{id}', function($id) {
 	$athlete = Athlete::find('525b46c94c84a35459000000');
 	$routine = $athlete->traPrelimOptional;
 	dd($routine);
-});
-
-Event::listen('illuminate.query', function($sql, $bindings) {
-	Log::info($sql . ' BINDINGS: (' . implode(', ', $bindings) . ')');
 });
 
 Route::get('import', function() {

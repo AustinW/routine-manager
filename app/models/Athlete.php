@@ -11,6 +11,13 @@ class Athlete extends BaseModel
 
 	public static $levels = [
 		'0'  => 'None',
+		'1'  => '1',
+		'2'  => '2',
+		'3'  => '3',
+		'4'  => '4',
+		'5'  => '5',
+		'6'  => '6',
+		'7'  => '7',
 		'8'  => '8',
 		'9'  => '9',
 		'10' => '10',
@@ -29,14 +36,14 @@ class Athlete extends BaseModel
 		'tumbling_level'   => 'in:0,8,9,10,jr,sr',
 		'synchro_level'    => 'in:0,8,9,10,jr,sr',
 
-		'tra_prelim_compulsory'   => 'exists:trampoline_routines,_id',
-		'tra_prelim_optional'     => 'exists:trampoline_routines,_id',
-		'tra_semi_final_optional' => 'exists:trampoline_routines,_id',
-		'tra_final_optional'      => 'exists:trampoline_routines,_id',
+		// 'tra_prelim_compulsory'   => 'exists:trampoline_routines,_id',
+		// 'tra_prelim_optional'     => 'exists:trampoline_routines,_id',
+		// 'tra_semi_final_optional' => 'exists:trampoline_routines,_id',
+		// 'tra_final_optional'      => 'exists:trampoline_routines,_id',
 
-		'sync_prelim_compulsory' => 'exists:trampoline_routines,_id',
-		'sync_prelim_optional'   => 'exists:trampoline_routines,_id',
-		'sync_final_optional'    => 'exists:trampoline_routines,_id',
+		// 'sync_prelim_compulsory' => 'exists:trampoline_routines,_id',
+		// 'sync_prelim_optional'   => 'exists:trampoline_routines,_id',
+		// 'sync_final_optional'    => 'exists:trampoline_routines,_id',
 
 
 
@@ -47,25 +54,25 @@ class Athlete extends BaseModel
 		return $this->belongsTo('User');
 	}
 
-	public function traPrelimCompulsory()  { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_compulsory'); }
-	public function traPrelimOptional()    { return $this->hasOne('Routines\TrampolineRoutine', 'tra_prelim_optional'); }
-	public function traSemiFinalOptional() { return $this->hasOne('Routines\TrampolineRoutine', 'tra_semi_final_optional'); }
-	public function traFinalOptional()     { return $this->hasOne('Routines\TrampolineRoutine', 'tra_final_optional'); }
+	public function routines()
+	{
+		return $this->belongsToMany('Routine')->withPivot('routine_type');
+	}
+
+	public function findWithRelationAndCheckOwner($relation, $id, \User $user)
+	{
+		return self::with((array) $relation)
+			->where($this->getKeyName(), $id)
+			->where('user_id', $user->getKey())
+			->whereNull('deleted_at')
+			->first();
+	}
 
 	public function name() { return $this->first_name . ' ' . $this->last_name; }
 
 	public function trampolineRoutines()
 	{
 		return $this->hasMany('TrampolineRoutine');
-	}
-
-	public function findCheckOwner($id)
-	{
-		if ( ! Auth::check()) {
-			throw new Exception('Authenticated session must be established before accessing this method.');
-		}
-
-		return self::where('_id', $id)->where('user_id', Auth::user()->_id)->whereNull('deleted_at');
 	}
 
 	public function excludeAthlete($athletes, $id)
@@ -80,10 +87,15 @@ class Athlete extends BaseModel
 		$athletes = ($withEmpty) ? ['' => 'None'] : [];
 
 		foreach ($collection as $athlete) {
-			$athletes[$athlete->_id] = $athlete->name;
+			$athletes[$athlete->getKey()] = $athlete->name;
 		}
 
 		return $athletes;
+	}
+
+	public function possessive()
+	{
+		return ($this->gender == 'male') ? 'his' : 'her';
 	}
 
 	// public function getBirthdayAttribute($value)

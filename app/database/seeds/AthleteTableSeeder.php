@@ -5,7 +5,7 @@ class AthleteTableSeeder extends \Illuminate\Database\Seeder
 	public function run()
 	{
         // First delete everything in the table
-        DB::statement('TRUNCATE TABLE athletes');
+        // DB::statement('TRUNCATE TABLE athletes');
 
 		$athletes = [
 			[
