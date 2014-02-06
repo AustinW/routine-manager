@@ -40,40 +40,47 @@ class Skill extends BaseModel
         return ! self::validSkill($skill);
     }
 
-    public static function fuzzyFind($skillName, $exact = false)
+    public function search($skill)
     {
-        if ( ! $exact) {
-            $skill = self::whereRaw([
-                'name' => [
-                    '$regex' => '^' . $skillName . '$',
-                    '$options' => 'i',
-                ]
-            ])->orWhereRaw([
-                'fig' => [
-                    '$regex' => '^' . static::massageFigString($skillName) . '$',
-                    '$options' => 'i',
-                ]
-            ])->first();
-        }
-
-        return $skill;
-
-        /////////////////////////////////
-        $skill = self::where(function($query) use($skillName) {
-            if ($exact)
-                $query->where('name', $skillName);
-            else
-                $query->where('name', 'like', '%' . $skillName . '%');
-        })->orWhere('fig', $skillName);
-
-        if (Input::has('limit')) {
-            $skill->take((int) Input::get('limit'));
-        }
-
-        $skillResult = $skill->orderBy('occurrence')->get();
-
-        return $skillResult;
+        return static::where('name', $this->massageNameString($skill))
+            ->orWhere('fig', $this->massageFigString($skill))
+            ->first();
     }
+
+    // public static function fuzzyFind($skillName, $exact = false)
+    // {
+    //     if ( ! $exact) {
+    //         $skill = self::whereRaw([
+    //             'name' => [
+    //                 '$regex' => '^' . $skillName . '$',
+    //                 '$options' => 'i',
+    //             ]
+    //         ])->orWhereRaw([
+    //             'fig' => [
+    //                 '$regex' => '^' . static::massageFigString($skillName) . '$',
+    //                 '$options' => 'i',
+    //             ]
+    //         ])->first();
+    //     }
+
+    //     return $skill;
+
+    //     /////////////////////////////////
+    //     $skill = self::where(function($query) use($skillName) {
+    //         if ($exact)
+    //             $query->where('name', $skillName);
+    //         else
+    //             $query->where('name', 'like', '%' . $skillName . '%');
+    //     })->orWhere('fig', $skillName);
+
+    //     if (Input::has('limit')) {
+    //         $skill->take((int) Input::get('limit'));
+    //     }
+
+    //     $skillResult = $skill->orderBy('occurrence')->get();
+
+    //     return $skillResult;
+    // }
 
     public static function massageNameString($nameString)
     {

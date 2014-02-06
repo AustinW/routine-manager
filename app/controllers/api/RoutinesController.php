@@ -6,7 +6,7 @@ namespace Api;
 use Routine;
 
 // Models
-use \User, \Athlete, \Skill, \RoutineSkill;
+use \User, \Athlete, \Skill;
 
 // Laravel Facades
 use \Validator, \Input, \Auth, \Response, \Lang, \Str;
@@ -14,14 +14,14 @@ use \Validator, \Input, \Auth, \Response, \Lang, \Str;
 // Laravel Classes
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoutinesController extends BaseController
 {
 
-    protected $skillModel;
-    protected $athleteModel;
-    // protected $routineSkillModel;
-    protected $routineModel;
+    protected $skillRepository;
+    protected $athleteRepository;
+    protected $routineRepository;
 
     public static $rules = array(
         'first_name'       => 'required|max:50',
@@ -34,14 +34,13 @@ class RoutinesController extends BaseController
         'synchro_level'    => 'in:0,8,9,10,jr,sr',
     );
 
-    public function __construct(Skill $skill, Athlete $athlete, /*RoutineSkill $routineSkill,*/ Routine $routineModel)
+    public function __construct(Skill $skillRepository, Athlete $athleteRepository, Routine $routineRepository)
     {
         $this->beforeFilter('auth');
 
-        $this->skillModel             = $skill;
-        $this->athleteModel           = $athlete;
-        // $this->routineSkillModel      = $routineSkill;
-        $this->routineModel = $routineModel;
+        $this->skillRepository   = $skillRepository;
+        $this->athleteRepository = $athleteRepository;
+        $this->routineRepository = $routineRepository;
     }
 
     /**
@@ -73,20 +72,18 @@ class RoutinesController extends BaseController
         $user = Auth::user();
 
         // Initiate a routine model based on which type they selected
-        $routine = $this->routineModel->fill(Input::only('name', 'description', 'type'));
+        $routine = $this->routineRepository->fill(Input::only('name', 'description', 'type'));
 
         // Ensure the model is valid
         if ($routine->isInvalid()) {
             return $routine->errorResponse();
         }
 
-        dd($routine);
-
         // Save the routine and associate it to the active user
-        $user->{Input::get('routine_type') . 'Routines'}()->save($routine);
+        $user->routines()->save($routine);
 
         // If an optional athlete was specified, create the association here
-        if (Input::get('athlete_id') and ( $athlete = $this->athleteModel->findCheckOwner(Input::get('athlete_id'))->first() )) {
+        if (Input::get('athlete_id') and ( $athlete = $this->athleteRepository->findCheckOwner(Input::get('athlete_id'))->first() )) {
 
             $athleteRoutine = $this->athleteRoutineModel;
             $athleteRoutine->athlete_id = $athlete->id;
@@ -95,20 +92,21 @@ class RoutinesController extends BaseController
 
         }
 
-        // Re-evaluate to use Eloquent to relate the models properly
+        $skills = new Collection();
+
         $order = 1;
         foreach (Input::get('skills') as $skill) {
-            $skill = $this->skillModel
-                ->where('name', $this->skillModel->massageNameString($skill))
-                ->orWhere('fig', $this->skillModel->massageFigString($skill))
-                ->first();
+            $skill = $this->skillRepository->search($skill);
 
-            $this->routineSkillModel->
+            $routine->skills()->attach($skill, array('order_index' => $order++ ));
 
-            $routine->routineSkills()->save($skill, [ 'order_index' => $order++ ]);
+            $skills->add($skill);
         }
-        die;
 
+        $routinesArray = $routine->toArray();
+        $routinesArray['skills'] = $skills->toArray();
+
+        return $routinesArray;
 
     }
 
@@ -119,7 +117,9 @@ class RoutinesController extends BaseController
      */
     public function show($id)
     {
-        return Athlete::find($id);
+        $routine = $this->routineRepository->findCheckOwner($id)->first();
+
+        return ($routine) ? $routine : Response::apiError(Lang::get('routine.not_found'), 404);
     }
 
     /**
@@ -129,7 +129,58 @@ class RoutinesController extends BaseController
      */
     public function update($id)
     {
+        $invalidSkills = [];
 
+        // Create an entry for each skill
+        foreach (Input::get('skills', array()) as $skill)
+        {
+            if (Skill::invalidSkill($skill))
+                $invalidSkills[] = $skill;
+        }
+
+        if (count($invalidSkills) > 0) {
+            return Response::apiError(Lang::get('routine.invalid_skills', array('skills', implode(',', $invalidSkills))));
+        }
+
+        $user = Auth::user();
+
+        // Initiate a routine model based on which type they selected
+        $routine = $this->routineRepository->findCheckOwner($id, $this->routineRepository->with('skills'))->first();
+
+        $attributes = array('name', 'description', 'type');
+
+        foreach ($attributes as $key) {
+            if (Input::has($key)) $routine->$key = Input::get($key);
+        }
+
+        // Ensure the model is valid
+        if ($routine->isInvalid()) {
+            return $routine->errorResponse();
+        }
+
+        $routine->save();
+
+        if (Input::has('skills')) {
+
+            // Remove existing skills from routine
+            $routine->skills()->detach();
+            
+            $skills = new Collection();
+
+            $order = 1;
+            foreach (Input::get('skills') as $skill) {
+                $skill = $this->skillRepository->search($skill);
+
+                $routine->skills()->attach($skill, array('order_index' => $order++ ));
+
+                $skills->add($skill);
+            }
+        }
+
+        $routinesArray = $routine->toArray();
+        $routinesArray['skills'] = $skills->toArray();
+
+        return $routinesArray;
     }
 
     /**
@@ -149,17 +200,9 @@ class RoutinesController extends BaseController
     }
 
 
-    public function showSkills($id)
+    public function getSkills($id)
     {
-
-        $routineType = Input::get('routineType');
-
-        if (!$routineType)
-            return Response::json(['message' => 'No routineType specified'], 400);
-
-        $routine = $this->trampolineRoutineModel->with('routineSkills')->where('id', $id)->where('user_id', Auth::user()->id)->first();
-
-        dd($routine);
+        return $this->routineRepository->findCheckOwner($id, $this->routineRepository->with('skills'))->first()->skills;
     }
 
 }

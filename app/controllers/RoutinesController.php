@@ -165,7 +165,7 @@ class RoutinesController extends BaseController
 
         $routine = $this->trampolineRoutineModel->with('routineSkills')->where('id', $id)->where('user_id', Auth::user()->id)->first();
 
-        dd($routine);
+        return $routine;
     }
 
 }

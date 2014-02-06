@@ -1,6 +1,6 @@
 <?php
 
-// use Jenssegers\Mongodb\Model as Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 
 class BaseModel extends Eloquent
 {
@@ -8,15 +8,15 @@ class BaseModel extends Eloquent
 
     public static $rules = null;
 
-    // protected $primaryKey = '_id';
-
-    public function findCheckOwner($id)
+    public function findCheckOwner($id, Builder $builder = null)
     {
         if ( ! Auth::check()) {
             throw new Exception('Authenticated session must be established before accessing this method.');
         }
 
-        return self::where($this->getKeyName(), $id)->where('user_id', Auth::user()->getKey())->whereNull('deleted_at');
+        $builder = $builder ?: new static;
+
+        return $builder->where($this->getKeyName(), $id)->where('user_id', Auth::user()->getKey())->whereNull('deleted_at');
     }
 
     public function isValid()
