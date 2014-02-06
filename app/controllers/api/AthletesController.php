@@ -135,6 +135,9 @@ class AthletesController extends BaseController
 		if ( ! $routine)
 			return Response::apiNotFoundError(Lang::get('routine.not_found', array('id' => $routineId)));
 
+		if ( ! Routine::correctType($routine->type, $routineType))
+			return Response::apiError(Lang::get('routine.incorrect_type', array('routine_type' => $routine->type, 'specified_routine_type' => $routineType)));
+
 		$athlete = Auth::user()->athletes()
 			->where($this->athleteRepository->getKeyName(), $athleteId)
 			->whereNull('deleted_at')
@@ -146,7 +149,10 @@ class AthletesController extends BaseController
 		try {
 			$athlete->routines()->attach($routine, array('routine_type' => $routineType));
 		} catch (QueryException $e) {
-			return Response::apiError(Lang::get('routine.already_associated', array('routine_type' => Routine::descriptiveRoutineType($routineType))), 400);
+			return Response::apiError(Lang::get('routine.already_associated', array(
+				'routine_type' => Routine::descriptiveRoutineType($routineType),
+				'possessive'   => $athlete->possessive()
+			)), 400);
 		}
 		
 		return Response::apiMessage(Lang::get('routine.associated', array(

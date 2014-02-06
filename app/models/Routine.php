@@ -115,6 +115,33 @@ class Routine extends \BaseModel
 		return $routines;
 	}
 
+	public static function correctType($routineType, $whichRoutine)
+	{
+		$routineTypes = self::$whichRoutineFields;
+
+		$routineTypes['tra_prelim_compulsory']   = 'trampoline';
+		$routineTypes['tra_prelim_optional']     = 'trampoline';
+		$routineTypes['tra_semi_final_optional'] = 'trampoline';
+		$routineTypes['tra_final_optional']      = 'trampoline';
+
+		$routineTypes['dmt_pass1'] = 'doublemini';
+		$routineTypes['dmt_pass2'] = 'doublemini';
+		$routineTypes['dmt_pass3'] = 'doublemini';
+		$routineTypes['dmt_pass4'] = 'doublemini';
+
+		$routineTypes['tum_pass1'] = 'tumbling';
+		$routineTypes['tum_pass2'] = 'tumbling';
+		$routineTypes['tum_pass3'] = 'tumbling';
+		$routineTypes['tum_pass4'] = 'tumbling';
+
+		$routineTypes['syn_prelim_compulsory']   = 'synchro';
+		$routineTypes['syn_prelim_optional']     = 'synchro';
+		$routineTypes['syn_semi_final_optional'] = 'synchro';
+		$routineTypes['syn_final_optional']      = 'synchro';
+
+		return ($routineType == $routineTypes[$whichRoutine]);
+	}
+
 	public static function descriptiveRoutineType($routineType)
 	{
 		$descriptions = array_combine(self::$whichRoutineFields, array(
