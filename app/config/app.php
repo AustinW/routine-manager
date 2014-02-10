@@ -108,6 +108,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
 		'Way\Generators\GeneratorsServiceProvider',
+		'Austinw\Pdfdf\PdfdfServiceProvider',
 
 	),
 
@@ -175,6 +176,17 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 
+		'Pdfdf'           => 'Austinw\Pdfdf\PdfdfFacade',
+
+	),
+
+	'compcards' => array(
+		'source' => array(
+			'tra'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tr.pdf',
+			'sync' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_sy.pdf',
+			'dmt'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_dm.pdf',
+			'tum'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tu.pdf',
+		),
 	),
 
 );

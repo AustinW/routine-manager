@@ -47,6 +47,11 @@ class Skill extends BaseModel
             ->first();
     }
 
+    public function getTrampolineDifficultyAttribute($value)
+    {
+        return sprintf("%0.1f",$value);
+    }
+
     // public static function fuzzyFind($skillName, $exact = false)
     // {
     //     if ( ! $exact) {

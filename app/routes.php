@@ -17,6 +17,22 @@ Route::get('/', function()
 
 });
 
+Route::get('test-pdf', function() {
+
+	// Pdfdf::fill(
+	// 	storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tr.pdf',
+	// 	storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'tr.pdf'
+	// );
+
+	$pdfdf = App::make('pdfdf');
+	$athlete = Athlete::find(1);
+	$routine = Routine::with('skills')->find(4);
+	$trc = new Compcard\TrampolineCompcard($pdfdf, $athlete, new Compcard\CompcardMapper);
+
+	$trc->generate();
+
+});
+
 Route::get('create-athlete', function() {
 
 	$athlete = new Athlete([
@@ -79,6 +95,9 @@ Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
 
 	Route::put('athletes/{athleteId}/{routineType}/{routineId}', 'AthletesController@putAssociate')
 		->where(array('athleteId' => '[0-9]+', 'routineType' => '[a-z_]+', 'routineId' => '[0-9]+'));
+	Route::delete('athletes/{athleteId}/{routineType}', 'AthletesController@deleteAssociation')
+		->where(array('athleteId' => '[0-9]+', 'routineType' => '[a-z_]+'));
+
 	Route::resource('athletes', 'AthletesController');
 
 	Route::get('athletes/{athleteId}/{event}', 'AthletesController@getRoutinesForEvent');

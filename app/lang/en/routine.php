@@ -5,6 +5,10 @@ return array(
 
 	'associated'         => ':routine_name has been associated to :athlete_name as :possessive :routine_type',
 
+	'unassociated'       => ':name\'s :routine_type has been unassociated',
+
+	'unassociate_failed' => ':name\'s :routine_type could not be unassociated',
+
 	'unrecognized_type'  => 'Unrecognized event or routine type: :routine_type',
 
 	'invalid_skills'     => 'Invalid skills specified: :skills',

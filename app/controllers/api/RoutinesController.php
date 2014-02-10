@@ -43,6 +43,11 @@ class RoutinesController extends BaseController
         $this->routineRepository = $routineRepository;
     }
 
+    public function index()
+    {
+        return Auth::user()->routines()->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

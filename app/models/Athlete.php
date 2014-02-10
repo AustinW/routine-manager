@@ -5,7 +5,7 @@ class Athlete extends BaseModel
 
 	protected $guarded = array();
 
-	protected $softDelete = false;
+	protected $softDelete = true;
 
 	public $hidden = ['deleted_at'];
 

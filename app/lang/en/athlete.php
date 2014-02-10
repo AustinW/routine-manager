@@ -7,4 +7,6 @@ return array(
 	'created'        => 'Athlete created',
 	'created_error'  => 'Problem creating the athlete',
 	'updated'        => ':name has been updated',
+	'deleted'        => ':name has been deleted',
+	'delete_failed'  => ':name could not be deleted',
 );

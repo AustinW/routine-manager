@@ -111,13 +111,14 @@ class AthletesController extends BaseController
 	 */
 	public function destroy($id)
 	{
-		$athlete = $this->athleteRepository->whereId($id)->whereUserId(Auth::user()->getKey())->first();
+		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
 		$athleteName = $athlete->name();
 
-		//@todo: Should not need to suppress error here. Bug in L4
-		@$athlete->delete();
-
-		return Response::json(['message' => $athleteName . ' deleted.']);
+		if ($athlete->delete()) {
+			return Response::apiMessage(Lang::get('athlete.deleted', array('name' => $athleteName)));
+		} else {
+			return Response::apiError(Lang::get('athlete.delete_failed', array('name' => $athleteName)));
+		}
 	}
 
 	public function putAssociate($athleteId, $routineType, $routineId)
@@ -163,6 +164,34 @@ class AthletesController extends BaseController
 		)));
 	}
 
+	public function deleteAssociation($athleteId, $routineType)
+	{
+		$input = array('routine_type' => $routineType);
+		
+		$validation = Validator::make($input, array('routine_type' => 'in:' . implode(',', Routine::$whichRoutineFields)));
+
+		if ($validation->fails()) {
+			return Response::apiValidationError($validation, $input);
+		}
+
+		$athlete = $this->athleteRepository->findCheckOwner($athleteId)->first();
+
+		$routine = $athlete->routines->filter(function($routine) use($routineType) {
+			return ($routine->pivot->routine_type == $routineType) ? $routine : null;
+		})->get(1);
+
+		$messageParams = array(
+			'name'         => $athlete->name(),
+			'routine_type' => Routine::descriptiveRoutineType($routineType)
+		);
+		
+		if ($routine && $routine->pivot->delete()) {
+			return Response::apiMessage(Lang::get('routine.unassociated', $messageParams));
+		} else {
+			return Response::apiError(Lang::get('routine.unassociate_failed', $messageParams));
+		}
+	}
+
 	public function getRoutinesForEvent($athleteId, $eventOrRoutineType)
 	{
 		$athlete = $this->athleteRepository->findWithRelationAndCheckOwner(array(
@@ -175,7 +204,11 @@ class AthletesController extends BaseController
 
 		), $athleteId, Auth::user());
 		
-		return $athlete->routines;
+		if ($athlete && $athlete->routines) {
+			return $athlete->routines;
+		} else {
+			return Response::apiError(Lang::get('athlete.not_found', array('id' => $athleteId)), 404);
+		}
 
 	}
 

@@ -54,6 +54,13 @@ class Routine extends \BaseModel
 	public function scopeTraSemiFinalOptional($query) { return $query->where('routine_type', '=', 'tra_semi_final_optional'); }
 	public function scopeTraFinalOptional($query)     { return $query->where('routine_type', '=', 'tra_final_optional'); }
 
+	public function routineType()
+	{
+		if (isset($this->pivot) && isset($this->pivot->routine_type))
+			return $this->pivot->routine_type;
+		else
+			return null;
+	}
 
 	public function analyzeSkills()
 	{
@@ -92,11 +99,10 @@ class Routine extends \BaseModel
 		$total = 0.0;
 
 		foreach ($this->skills as $skill) {
-			$skill = (array) $skill;
-			$total += $skill[$event];
+			$total += (float) $skill->{$event . '_difficulty'};
 		}
-		
-		return $total;
+
+		return sprintf('%0.1f', $total);
 	}
 
 	public function routinesForUser($user_id)
