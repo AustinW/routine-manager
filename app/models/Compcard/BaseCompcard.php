@@ -48,6 +48,8 @@ class BaseCompcard
 		$this->mapRoutines($fields);
 	}
 
+	protected function mapRoutines(array $fields) {}
+
 	public function generate()
 	{
 		// Generate the FDF file
@@ -61,9 +63,7 @@ class BaseCompcard
 		}
 
 		// Merge the fdf content with pdf
-		$this->pdfdf->generate($this->pdfSource, Str::slug($this->athlete->name()), $fields);
-
-		// Output pdf
+		$this->pdfdf->generate($this->pdfSource, Str::slug($this->athlete->name() . ' ' . $this->compcardType), $fields);
 	}
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType) {}

@@ -8,16 +8,27 @@ use Athlete;
 use Config;
 use Str;
 
-class TrampolineCompcard extends BaseCompcard
+class DoubleminiCompcard extends BaseCompcard
 {
-	protected $compcardType = 'trampoline';
+	protected $compcardType = 'doublemini';
+
+	// Override the header fields (different than trampoline compcard)
+	protected $mappedFields = array(
+		'topmostSubform[0].Page1[0].NAME[0]'      => '',
+		'topmostSubform[0].Page1[0].TEAM[0]'      => '',
+		'topmostSubform[0].Page1[0].AGE-GROUP[0]' => '',
+		'topmostSubform[0].Page1[0].LEVEL[0]'     => '',
+		'topmostSubform[0].Page1[0].MF[0]'        => '',
+	);
 
 	public function __construct(Pdfdf $pdfdf, Athlete $athlete, CompcardMapper $compcardMapper)
 	{
 		parent::__construct($pdfdf, $athlete, $compcardMapper);
 		
-		$this->pdfSource = Config::get('app.compcards.source.tra');
+		$this->pdfSource = Config::get('app.compcards.source.dmt');
 	}
+
+
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType)
 	{
@@ -26,21 +37,11 @@ class TrampolineCompcard extends BaseCompcard
 		foreach ($fields as $field) {
 			$field->setValue($this->compcardMapper->getField($field->getName()));
 		}
-
-		if ($routineType == 'tra_prelim_compulsory') {
-
-			if (strtolower($this->athlete->trampoline_level) == 'sr') {
-
-			} else if (strtolower($this->athlete->trampoline_level) == 'jr') {
-
-			}
-
-		}
 	}
 
 	protected function mapRoutines(array $fields)
 	{
-		$routines = $this->athlete->trampolineRoutines;
+		$routines = $this->athlete->doubleminiPasses;
 
 		foreach ($routines as $routine) {
 			

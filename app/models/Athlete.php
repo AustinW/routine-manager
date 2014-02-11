@@ -54,6 +54,33 @@ class Athlete extends BaseModel
 		return $this->belongsTo('User');
 	}
 
+	public function trampolineRoutines()
+	{
+		return $this->belongsToMany('TrampolineRoutine', 'athlete_routine', 'athlete_id', 'routine_id')
+			->withPivot('routine_type')
+			->whereType('trampoline')
+			->wherePivot('routine_type', '=', 'tra_prelim_compulsory')
+			->orWherePivot('routine_type', '=', 'tra_prelim_optional')
+			->orWherePivot('routine_type', '=', 'tra_semi_final_optional')
+			->orWherePivot('routine_type', '=', 'tra_final_optional');
+	}
+
+	public function doubleminiPasses()
+	{
+		return $this->belongsToMany('DoubleminiPass', 'athlete_routine', 'athlete_id', 'routine_id')
+			->withPivot('routine_type')
+			->whereType('doublemini')
+			->wherePivot('routine_type', '=', 'dmt_pass_1')
+			->orWherePivot('routine_type', '=', 'dmt_pass_2')
+			->orWherePivot('routine_type', '=', 'dmt_pass_3')
+			->orWherePivot('routine_type', '=', 'dmt_pass_4');
+	}
+
+	public function scopeAllDoubleminiPasses($query)
+	{
+			
+	}
+
 	public function routines()
 	{
 		return $this->belongsToMany('Routine')->withPivot('routine_type');
@@ -69,11 +96,6 @@ class Athlete extends BaseModel
 	}
 
 	public function name() { return $this->first_name . ' ' . $this->last_name; }
-
-	public function trampolineRoutines()
-	{
-		return $this->hasMany('TrampolineRoutine');
-	}
 
 	public function excludeAthlete($athletes, $id)
 	{

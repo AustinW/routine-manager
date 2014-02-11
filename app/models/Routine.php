@@ -45,8 +45,8 @@ class Routine extends \BaseModel
 	|
 	*/
 	public function user()     { return $this->belongsTo('User'); }
-	public function athletes() { return $this->belongsToMany('Athlete'); }
-	public function skills()   { return $this->belongsToMany('Skill')->withPivot('order_index'); }
+	public function athletes() { return $this->belongsToMany('Athlete', 'athlete_routines', 'athlete_id', 'routine_id'); }
+	public function skills()   { return $this->belongsToMany('Skill', 'routine_skill', 'routine_id', 'skill_id')->withPivot('order_index'); }
 
 	// Trampoline scoped queries
 	public function scopeTraPrelimCompulsory($query)  { return $query->where('routine_type', '=', 'tra_prelim_compulsory'); }
@@ -94,7 +94,7 @@ class Routine extends \BaseModel
 		return $analysis;
 	}
 
-	public function totalDifficulty($event)
+	public function eventDifficulty($event)
 	{
 		$total = 0.0;
 
