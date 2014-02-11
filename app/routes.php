@@ -26,11 +26,11 @@ Route::get('test-pdf', function() {
 
 	$pdfdf = App::make('pdfdf');
 	$athlete = Athlete::find(1);
-	// $trc = new Compcard\TrampolineCompcard($pdfdf, $athlete, new Compcard\TrampolineCompcardMapper);
-	// $trc->generate();
+	$trc = new Compcard\TrampolineCompcard($pdfdf, $athlete, new Compcard\TrampolineCompcardMapper);
+	$trc->generate();
 
-	// $dmt = new Compcard\DoubleminiCompcard($pdfdf, $athlete, new Compcard\DoubleminiCompcardMapper);
-	// $dmt->generate();
+	$dmt = new Compcard\DoubleminiCompcard($pdfdf, $athlete, new Compcard\DoubleminiCompcardMapper);
+	$dmt->generate();
 
 	$tum = new Compcard\TumblingCompcard($pdfdf, $athlete, new Compcard\TumblingCompcardMapper);
 	$tum->generate();

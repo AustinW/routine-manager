@@ -76,6 +76,17 @@ class Athlete extends BaseModel
 			->orWherePivot('routine_type', '=', 'dmt_pass_4');
 	}
 
+	public function tumblingPasses()
+	{
+		return $this->belongsToMany('TumblingPass', 'athlete_routine', 'athlete_id', 'routine_id')
+			->withPivot('routine_type')
+			->whereType('tumbling')
+			->wherePivot('routine_type', '=', 'tum_pass_1')
+			->orWherePivot('routine_type', '=', 'tum_pass_2')
+			->orWherePivot('routine_type', '=', 'tum_pass_3')
+			->orWherePivot('routine_type', '=', 'tum_pass_4');
+	}
+
 	public function scopeAllDoubleminiPasses($query)
 	{
 			

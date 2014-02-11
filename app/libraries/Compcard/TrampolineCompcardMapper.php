@@ -52,6 +52,6 @@ class TrampolineCompcardMapper extends CompcardMapper
 			}
 		}
 
-		$this->assignField($routineType . '.total', $routine->difficulty('trampoline'), 0);
+		$this->assignField($routineType . '.total', $routine->difficulty(), 0);
 	}
 }

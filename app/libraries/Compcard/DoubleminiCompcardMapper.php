@@ -7,7 +7,7 @@ use DoubleminiPass;
 
 class DoubleminiCompcardMapper extends CompcardMapper
 {
-	protected $eventFields = array();protected $debug = false;
+	protected $eventFields = array();
 
 	public function __construct()
 	{
