@@ -5,30 +5,15 @@ namespace Compcard;
 use Austinw\Pdfdf\Pdfdf;
 use Routine;
 use Athlete;
-use Config;
-use Str;
 
 class DoubleminiCompcard extends BaseCompcard
 {
 	protected $compcardType = 'doublemini';
 
-	// Override the header fields (different than trampoline compcard)
-	protected $mappedFields = array(
-		'topmostSubform[0].Page1[0].NAME[0]'      => '',
-		'topmostSubform[0].Page1[0].TEAM[0]'      => '',
-		'topmostSubform[0].Page1[0].AGE-GROUP[0]' => '',
-		'topmostSubform[0].Page1[0].LEVEL[0]'     => '',
-		'topmostSubform[0].Page1[0].MF[0]'        => '',
-	);
-
 	public function __construct(Pdfdf $pdfdf, Athlete $athlete, CompcardMapper $compcardMapper)
 	{
 		parent::__construct($pdfdf, $athlete, $compcardMapper);
-		
-		$this->pdfSource = Config::get('app.compcards.source.dmt');
 	}
-
-
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType)
 	{
@@ -41,12 +26,6 @@ class DoubleminiCompcard extends BaseCompcard
 
 	protected function mapRoutines(array $fields)
 	{
-		$routines = $this->athlete->doubleminiPasses;
-
-		foreach ($routines as $routine) {
-			
-			$this->mapRoutine($routine, $fields, $routine->routineType());
-		
-		}
+		parent::mapEachRoutine($this->athlete->doubleminiPasses, $fields);
 	}
 }

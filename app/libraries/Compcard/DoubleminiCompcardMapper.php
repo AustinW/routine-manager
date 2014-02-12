@@ -14,22 +14,21 @@ class DoubleminiCompcardMapper extends CompcardMapper
 		for ($i = 1; $i <= 4; ++$i) {
 
 			$index = ($i == 1) ? '' : '_' . $i;
-			$prefix = 'topmostSubform[0].Page1[0].';
 			
 			$this->eventFields['dmt_pass_' . $i] = array(
 				'mounter' => array(
-					'fig' => sprintf('%sMounter__1st_Skill%s[0]', $prefix, $index),
-					'dd' => sprintf('%sDD__1st_Skill%s[0]', $prefix, $index),
+					'fig' => sprintf('MOUNTER-SKILL%s', $index),
+					'dd' => sprintf('DD-1%s', $index),
 				),
 				'spotter' => array(
-					'fig' => sprintf('%sSpotter__1st_Skill%s[0]', $prefix, $index),
-					'dd' => sprintf('%sDD__1st_Skill%s[0]', $prefix, $index),
+					'fig' => sprintf('SPOTTER-SKILL%s', $index),
+					'dd' => sprintf('DD-1%s', $index),
 				),
 				'dismount' => array(
-					'fig' => sprintf('%sDismount__2nd_Skill%s[0]', $prefix, $index),
-					'dd'  => sprintf('%sDD__2nd_Skill%s[0]', $prefix, $index),
+					'fig' => sprintf('DISMOUNT-SKILL%s', $index),
+					'dd'  => sprintf('DD-2%s', $index),
 				),
-				'total' => sprintf('%sDD__Total_DD%s[0]', $prefix, $index)
+				'total' => sprintf('DDTOTAL%s', $index)
 			);
 		}
 
@@ -50,9 +49,4 @@ class DoubleminiCompcardMapper extends CompcardMapper
 		$this->assignField($routineType . '.total', $routine->difficulty());
 	}
 
-	public function setName($value)      { $this->mappedFields['topmostSubform[0].Page1[0].NAME[0]']      = $value; }
-	public function setTeam($value)      { $this->mappedFields['topmostSubform[0].Page1[0].TEAM[0]']      = $value; }
-	public function setGender($value)    { $this->mappedFields['topmostSubform[0].Page1[0].MF[0]']        = $value; }
-	public function setLevel($value)     { $this->mappedFields['topmostSubform[0].Page1[0].LEVEL[0]']     = $value; }
-	public function setAgeGroup($value)  { $this->mappedFields['topmostSubform[0].Page1[0].AGE-GROUP[0]'] = $value; }
 }

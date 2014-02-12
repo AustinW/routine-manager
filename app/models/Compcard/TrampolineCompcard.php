@@ -5,8 +5,6 @@ namespace Compcard;
 use Austinw\Pdfdf\Pdfdf;
 use Routine;
 use Athlete;
-use Config;
-use Str;
 
 class TrampolineCompcard extends BaseCompcard
 {
@@ -15,8 +13,6 @@ class TrampolineCompcard extends BaseCompcard
 	public function __construct(Pdfdf $pdfdf, Athlete $athlete, CompcardMapper $compcardMapper)
 	{
 		parent::__construct($pdfdf, $athlete, $compcardMapper);
-		
-		$this->pdfSource = Config::get('app.compcards.source.tra');
 	}
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType)
@@ -40,12 +36,6 @@ class TrampolineCompcard extends BaseCompcard
 
 	protected function mapRoutines(array $fields)
 	{
-		$routines = $this->athlete->trampolineRoutines;
-
-		foreach ($routines as $routine) {
-			
-			$this->mapRoutine($routine, $fields, $routine->routineType());
-		
-		}
+		parent::mapEachRoutine($this->athlete->trampolineRoutines, $fields);
 	}
 }

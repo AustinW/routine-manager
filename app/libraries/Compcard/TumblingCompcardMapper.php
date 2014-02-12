@@ -51,7 +51,4 @@ class TumblingCompcardMapper extends CompcardMapper
 
 		$this->assignField($routineType . '.total', $routine->difficulty());
 	}
-
-	public function setGender($value) { $this->mappedFields['0 1']   = $value; }
-	public function setLevel($value)  { $this->mappedFields['0 2']   = $value; }
 }

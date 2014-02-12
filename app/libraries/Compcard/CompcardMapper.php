@@ -6,12 +6,7 @@ use Routine;
 
 class CompcardMapper
 {
-	protected $mappedFields = array(
-		'NAME' => '',
-		'TEAM' => '',
-		'MF 1' => '',
-		'MF 2' => '',
-	);
+	protected $mappedFields = array();
 
 	protected $eventFields;
 
@@ -61,8 +56,9 @@ class CompcardMapper
 		$this->resetFields();
 	}
 
-	public function setName($value)   { $this->mappedFields['NAME']   = $value; }
-	public function setTeam($value)   { $this->mappedFields['TEAM']   = $value; }
-	public function setGender($value) { $this->mappedFields['MF 1']   = $value; }
-	public function setLevel($value)  { $this->mappedFields['MF 2']   = $value; }
+	public function setName($value)      { $this->mappedFields['NAME']      = $value; }
+	public function setTeam($value)      { $this->mappedFields['TEAM']      = $value; }
+	public function setGender($value)    { $this->mappedFields['GENDER']    = $value; }
+	public function setLevel($value)     { $this->mappedFields['LEVEL']     = $value; }
+	public function setAgeGroup($value)  { $this->mappedFields['AGE-GROUP'] = $value; }
 }

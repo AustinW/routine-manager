@@ -182,10 +182,18 @@ return array(
 
 	'compcards' => array(
 		'source' => array(
-			'tra'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tr.pdf',
-			'sync' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_sy.pdf',
-			'dmt'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_dm.pdf',
-			'tum'  => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tu.pdf',
+			'elite' => array(
+				'trampoline' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tr.pdf',
+				'synchro'    => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_sy.pdf',
+				'doublemini' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_dm.pdf',
+				'tumbling'   => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tu.pdf',
+			),
+			'jo' => array(
+				'trampoline' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_jo_tr.pdf',
+				'synchro'    => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_jo_sy.pdf',
+				'doublemini' => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_jo_dm.pdf',
+				'tumbling'   => storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_jo_tu.pdf',
+			),
 		),
 	),
 

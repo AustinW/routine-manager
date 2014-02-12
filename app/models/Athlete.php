@@ -49,10 +49,9 @@ class Athlete extends BaseModel
 
 	];
 
-	public function user()
-	{
-		return $this->belongsTo('User');
-	}
+	public function user() { return $this->belongsTo('User'); }
+
+	public function synchroPartner() { return $this->hasOne('Athlete', 'synchro_partner_id'); }
 
 	public function trampolineRoutines()
 	{
@@ -131,17 +130,50 @@ class Athlete extends BaseModel
 		return ($this->gender == 'male') ? 'his' : 'her';
 	}
 
-	// public function getBirthdayAttribute($value)
-	// {
-	// 	return new DateTime($value);
-	// }
+	public function setTrampolineLevelAttribute($value) { $this->attributes['trampoline_level'] = strtolower($value); }
+	public function setSynchroLevelAttribute($value)    { $this->attributes['synchro_level']    = strtolower($value); }
+	public function setDoubleminiLevelAttribute($value) { $this->attributes['doublemini_level'] = strtolower($value); }
+	public function setTumblingLevelAttribute($value)   { $this->attributes['tumbling_level']   = strtolower($value); }
 
-	// public function setBirthdayAttribute($value)
-	// {
-	// 	if ($value instanceof DateTime) {
-	// 		$this->attributes['birthday'] = $value->format('Y-m-d g:i:s');
-	// 	} else {
-	// 		$this->attributes['birthday'] = $value;
-	// 	}
-	// }
+	public function ageGroup($year, $level)
+	{
+		if ($level == 'jr' || $level == 'sr')
+			return null;
+
+		$age = $year - (int) date('Y', strtotime($this->birthday));
+		
+		switch ($level)
+		{
+			case '9':
+				if ($age <= 6)
+					$category = '6 & under';
+				else if ($age >= 7 && $age <= 8)
+					$category = '7-8';
+				else if ($age >= 9 && $age <= 10)
+					$category = '9-10';
+				else if ($age >= 11 && $age <= 12)
+					$category = '11-12';
+				else if ($age >= 13 && $age <= 14)
+					$category = '13-14';
+				else
+					$category = '15 & over';
+				break;
+			case '10':
+				if ($age <= 10)
+					$category = '10 & under';
+				else if ($age >= 11 && $age <= 12)
+					$category = '11-12';
+				else if ($age >= 13 && $age <= 14)
+					$category = '13-14';
+				else if ($age >= 15 && $age <= 16)
+					$category = '15-16';
+				else
+					$category = '17 & over';
+				break;
+			default:
+				$category = '';
+				break;
+		}
+		return $category;
+	}
 }
