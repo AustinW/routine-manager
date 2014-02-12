@@ -11,6 +11,8 @@ use Config;
 use Lang;
 use Exception;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class BaseCompcard
 {
 	protected $pdfdf;
@@ -46,13 +48,17 @@ class BaseCompcard
 		$this->compcardMapper->setAgeGroup($this->athlete->ageGroup(date('Y'), $level));
 
 		$this->mapRoutines($fields);
+
+		foreach ($fields as $field) {
+			$field->setValue($this->compcardMapper->getField($field->getName()));
+		}
 	}
 
 	protected function mapRoutines(array $fields) {}
 	
-	protected function mapEachRoutine(array $routines = null, array $fields)
+	protected function mapEachRoutine($routines = null, array $fields)
 	{
-		if ($routines) {
+		if ((is_array($routines) && count($routines) > 0) || ($routines instanceof Collection && $routines->count() > 0)) {
 
 			foreach ($routines as $routine) {
 				
@@ -74,8 +80,6 @@ class BaseCompcard
 		foreach ($fields as $field) {
 			if ($field->getValue() == null) $field->setValue(' ');
 		}
-
-		dd($fields, $this->compcardMapper->fields());
 
 		// Merge the fdf content with pdf
 		$this->pdfdf->generate($this->pdfSource, Str::slug($this->athlete->name() . ' ' . $this->compcardType), $fields);

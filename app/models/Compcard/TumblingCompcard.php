@@ -18,10 +18,6 @@ class TumblingCompcard extends BaseCompcard
 	protected function mapRoutine(Routine $routine, array $fields, $routineType)
 	{
 		$this->compcardMapper->massAssign($routine, $routineType);
-
-		foreach ($fields as $field) {
-			$field->setValue($this->compcardMapper->getField($field->getName()));
-		}
 	}
 
 	protected function mapRoutines(array $fields)

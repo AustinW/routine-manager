@@ -31,17 +31,17 @@ class SynchroCompcard extends BaseCompcard
 
 		$this->compcardMapper->assignAthletesAndTeams($this->athlete);
 		$this->mapRoutines($fields);
+
+		foreach ($fields as $field) {
+			$field->setValue($this->compcardMapper->getField($field->getName()));
+		}
 	}
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType)
 	{
 		$this->compcardMapper->massAssign($routine, $routineType);
 
-		foreach ($fields as $field) {
-			$field->setValue($this->compcardMapper->getField($field->getName()));
-		}
-
-		if ($routineType == 'tra_prelim_compulsory') {
+		if ($routineType == 'syn_prelim_compulsory') {
 
 			if (strtolower($this->athlete->trampoline_level) == 'sr') {
 

@@ -19,10 +19,6 @@ class TrampolineCompcard extends BaseCompcard
 	{
 		$this->compcardMapper->massAssign($routine, $routineType);
 
-		foreach ($fields as $field) {
-			$field->setValue($this->compcardMapper->getField($field->getName()));
-		}
-
 		if ($routineType == 'tra_prelim_compulsory') {
 
 			if (strtolower($this->athlete->trampoline_level) == 'sr') {
