@@ -268,9 +268,9 @@ class AthletesController extends BaseController
 			);
 
 			if ($athleteDetach && $partnerDetach) {
-				return Response::apiMessage(Lang::get('athlete.synchro_unassociated', $langParams));
+				return Response::apiMessage(Lang::get('athlete.synchro_disassociated', $langParams));
 			} else {
-				return Response::apiError(Lang::get('athlete.synchro_unassociation_failed', $langParams));
+				return Response::apiError(Lang::get('athlete.synchro_disassociation_failed', $langParams));
 			}
 		} else {
 			return Response::apiError(Lang::get('athlete.not_found', array('id' => $athlete->synchro_partner_id)), 404);
