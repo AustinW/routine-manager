@@ -197,7 +197,7 @@ class AthletesController extends BaseController
 
 	public function putAssociateSynchroPartner($athleteId, $partnerId)
 	{
-		$input = array_merge(Input::all(), array('athlete_id' => $athleteId, 'partner_id' => $partnerId));
+		$input = array('athlete_id' => $athleteId, 'partner_id' => $partnerId);
 
 		$validation = Validator::make($input, array(
 			'athlete_id' => 'required|exists:athletes,id',
@@ -234,6 +234,46 @@ class AthletesController extends BaseController
 				'partner1' => $athlete->name(),
 				'partner2' => $partner->name(),
 			)));
+		}
+	}
+
+	public function deleteAssociatedSynchroPartner($athleteId)
+	{
+		$input = array('athlete_id' => $athleteId);
+
+		$validation = Validator::make($input, array('athlete_id' => 'required|exists:athletes,id'));
+
+		if ($validation->fails()) {
+			return Response::apiValidationError($validation, $input);
+		}
+
+		$athlete = $this->athleteRepository->findCheckOwner($athleteId)->first();
+
+		if ( ! $athlete) {
+			return Response::apiError(Lang::get('athlete.not_found', $athleteId), 404);
+		}
+
+		$partner = $athlete->synchroPartner;
+
+		if ($partner) {
+			$athlete->synchro_partner_id = 0;
+			$partner->synchro_partner_id = 0;
+
+			$athleteDetach = $athlete->save();
+			$partnerDetach = $partner->save();
+
+			$langParams = array(
+				'partner1' => $athlete->name(),
+				'partner2' => $partner->name(),
+			);
+
+			if ($athleteDetach && $partnerDetach) {
+				return Response::apiMessage(Lang::get('athlete.synchro_unassociated', $langParams));
+			} else {
+				return Response::apiError(Lang::get('athlete.synchro_unassociation_failed', $langParams));
+			}
+		} else {
+			return Response::apiError(Lang::get('athlete.not_found', array('id' => $athlete->synchro_partner_id)), 404);
 		}
 	}
 

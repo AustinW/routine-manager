@@ -107,6 +107,8 @@ Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
 
 	Route::put('athletes/{athlete}/synchro-partner/{partner}', 'AthletesController@putAssociateSynchroPartner')
 		->where(array('athleteId' => '[0-9]+', 'partnerId' => '[0-9]+'));
+	Route::delete('athletes/{athlete}/synchro-partner/{partner}', 'AthletesController@deleteAssociatedSynchroPartner')
+		->where(array('athleteId' => '[0-9]+', 'partnerId' => '[0-9]+'));
 
 	Route::resource('athletes', 'AthletesController');
 
