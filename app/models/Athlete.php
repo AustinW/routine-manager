@@ -7,6 +7,8 @@ class Athlete extends BaseModel
 
 	protected $softDelete = true;
 
+	const SYNCHRO_LEVEL_THRESHOLD = 9;
+
 	public $hidden = ['deleted_at'];
 
 	public static $levels = [
@@ -21,8 +23,8 @@ class Athlete extends BaseModel
 		'8'  => '8',
 		'9'  => '9',
 		'10' => '10',
-		'jr' => 'Junior',
-		'sr' => 'Senior',
+		'jr' => 'junior',
+		'sr' => 'senior',
 	];
 
 	public static $rules = [
@@ -86,9 +88,40 @@ class Athlete extends BaseModel
 			->orWherePivot('routine_type', '=', 'tum_pass_4');
 	}
 
-	public function scopeAllDoubleminiPasses($query)
+	public static function checkSynchroPartner(User $user, Athlete $athlete, Athlete $partner)
 	{
-			
+		// Check if athlete's level is the same as partner's
+		if ($athlete->synchro_level != $partner->synchro_level) {
+			throw new AthleteException(Lang::get('athlete.synchro_mismatch', array(
+				'partner1' => $athlete->name(),
+				'partner2' => $partner->name(),
+				'level1'   => self::$levels[$athlete->synchro_level],
+				'level2'   => self::$levels[$partner->synchro_level],
+			)));
+		}
+
+		// We know they're the same level, check one of their levels to make sure they're above
+		// the synchro threshold (Level 9)
+		if (self::numericLevel($athlete->synchro_level) < self::SYNCHRO_LEVEL_THRESHOLD)
+			throw new AthleteException(Lang::get('athlete.invalid_level', array('name' => $athlete->name(), 'event' => 'synchro')));
+
+		// If they are JO, make sure they are the same age group? (May not be necessary, might be a ceil())
+		if ($athlete->synchro_level == '9' || $athlete->synchro_level == '10') {
+
+			$athleteAgeGroup = self::ageGroup(date('Y'), $athlete->synchro_level, $athlete->birthday);
+			$partnerAgeGroup = self::ageGroup(date('Y'), $partner->synchro_level, $partner->birthday);
+
+			if ($athleteAgeGroup != $partnerAgeGroup)
+				throw new AthleteException(Lang::get('athlete.synchro_age_mismatch', array(
+					'partner1'  => $athlete->name(),
+					'partner2'  => $partner->name(),
+					'agegroup1' => $athleteAgeGroup,
+					'agegroup2' => $partnerAgeGroup,
+				)));
+		}
+
+		return true;
+
 	}
 
 	public function routines()
@@ -135,12 +168,20 @@ class Athlete extends BaseModel
 	public function setDoubleminiLevelAttribute($value) { $this->attributes['doublemini_level'] = strtolower($value); }
 	public function setTumblingLevelAttribute($value)   { $this->attributes['tumbling_level']   = strtolower($value); }
 
-	public function ageGroup($year, $level)
+	protected static function numericLevel($level)
+	{
+		if (is_numeric($level)) return (int) $level;
+
+		if ($level == 'jr') return 11;
+		if ($level == 'sr') return 12;
+	}
+
+	public static function ageGroup($year, $level, $birthday)
 	{
 		if ($level == 'jr' || $level == 'sr')
 			return null;
 
-		$age = $year - (int) date('Y', strtotime($this->birthday));
+		$age = $year - (int) date('Y', strtotime($birthday));
 		
 		switch ($level)
 		{

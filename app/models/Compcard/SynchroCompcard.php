@@ -27,7 +27,7 @@ class SynchroCompcard extends BaseCompcard
 		$this->compcardMapper->setLevel(ucwords($this->athlete->synchro_level));
 
 		$level = $this->athlete->synchro_level;
-		$this->compcardMapper->setAgeGroup($this->athlete->ageGroup(date('Y'), $level));
+		$this->compcardMapper->setAgeGroup(Athlete::ageGroup(date('Y'), $level, $this->athlete->birthday));
 
 		$this->compcardMapper->assignAthletesAndTeams($this->athlete);
 		$this->mapRoutines($fields);

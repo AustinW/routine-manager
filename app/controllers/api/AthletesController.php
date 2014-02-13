@@ -6,16 +6,17 @@ namespace Api;
 use Routine;
 
 // Models
-use \User, \Athlete;
+use User, Athlete;
 
 // Laravel Facades
-use \Validator, \Input, \Auth, \Response, \Lang, \Str;
+use Validator, Input, Auth, Response, Lang, Str;
 
 // Laravel Classes
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
 
-
+// Exceptions
+use AthleteException;
 
 class AthletesController extends BaseController
 {
@@ -25,6 +26,8 @@ class AthletesController extends BaseController
 
 	public function __construct(Athlete $athleteRepository, Routine $routineRepository)
 	{
+		parent::__construct();
+
 		$this->athleteRepository = $athleteRepository;
 		$this->routineRepository = $routineRepository;
 
@@ -189,6 +192,48 @@ class AthletesController extends BaseController
 			return Response::apiMessage(Lang::get('routine.unassociated', $messageParams));
 		} else {
 			return Response::apiError(Lang::get('routine.unassociate_failed', $messageParams));
+		}
+	}
+
+	public function putAssociateSynchroPartner($athleteId, $partnerId)
+	{
+		$input = array_merge(Input::all(), array('athlete_id' => $athleteId, 'partner_id' => $partnerId));
+
+		$validation = Validator::make($input, array(
+			'athlete_id' => 'required|exists:athletes,id',
+			'partner_id' => 'required|exists:athletes,id',
+		));
+
+		if ($validation->fails()) {
+			return Response::apiValidationError($validation, $input);
+		}
+
+		$athlete = $this->athleteRepository->findCheckOwner($athleteId)->first();
+		$partner = $this->athleteRepository->findCheckOwner($partnerId)->first();
+
+		try {
+			Athlete::checkSynchroPartner($this->user, $athlete, $partner);
+		} catch (AthleteException $e) {
+			return Response::apiExceptionError($e);
+		}
+
+		// Bind the partners together
+		$athleteBinding = $athlete->synchroPartner()->save($partner);
+		$partnerBinding = $partner->synchroPartner()->save($athlete);
+
+		if ($athleteBinding && $partnerBinding) {
+			return Response::apiMessage(Lang::get('athlete.synchro_associated', array(
+				'partner1' => $athlete->name(),
+				'partner2' => $partner->name(),
+			)), array(
+				'athlete' => $athlete->toArray(),
+				'partner' => $partner->toArray(),
+			));
+		} else {
+			return Response::apiError(Lang::get('athlete.synchro_error', array(
+				'partner1' => $athlete->name(),
+				'partner2' => $partner->name(),
+			)));
 		}
 	}
 

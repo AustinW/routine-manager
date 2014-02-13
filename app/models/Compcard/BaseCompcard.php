@@ -45,7 +45,7 @@ class BaseCompcard
 		$this->compcardMapper->setLevel(ucwords($this->athlete->{$this->compcardType . '_level'}));
 
 		$level = $this->athlete->{$this->compcardType . '_level'};
-		$this->compcardMapper->setAgeGroup($this->athlete->ageGroup(date('Y'), $level));
+		$this->compcardMapper->setAgeGroup(Athlete::ageGroup(date('Y'), $level, $this->athlete->birthday));
 
 		$this->mapRoutines($fields);
 

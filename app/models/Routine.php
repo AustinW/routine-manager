@@ -3,8 +3,11 @@
 use \App;
 use \SkillAnalysis;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class Routine extends \BaseModel
 {
+
 	protected $softDelete = true;
 
 	protected $fillable = array('name', 'description', 'type');
@@ -60,6 +63,22 @@ class Routine extends \BaseModel
 			return $this->pivot->routine_type;
 		else
 			return null;
+	}
+
+	public function attachSkills(array $skills)
+	{
+		$skillsCollection = new Collection();
+
+        $order = 1;
+        foreach ($skills as $skill) {
+            $skill = Skill::search($skill);
+
+            $this->skills()->attach($skill, array('order_index' => $order++ ));
+
+            $skillsCollection->add($skill);
+        }
+
+        return $skills;
 	}
 
 	public function analyzeSkills()

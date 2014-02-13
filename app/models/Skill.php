@@ -35,12 +35,17 @@ class Skill extends BaseModel
         }
     }
 
+    public static function checkForErrors(array $skills)
+    {
+        return array_filter($skills, function($skill) { return self::invalidSkill($skill); });
+    }
+
     public static function invalidSkill($skill)
     {
         return ! self::validSkill($skill);
     }
 
-    public function search($skill)
+    public static function search($skill)
     {
         return static::where('name', $this->massageNameString($skill))
             ->orWhere('fig', $this->massageFigString($skill))

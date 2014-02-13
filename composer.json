@@ -30,7 +30,8 @@
             "app/database/seeds",
             "app/tests/TestCase.php",
             "app/libraries",
-            "app/interfaces"
+            "app/interfaces",
+            "app/exceptions"
         ],
         "files": [
             "app/helpers.php"

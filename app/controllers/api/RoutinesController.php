@@ -61,20 +61,11 @@ class RoutinesController extends BaseController
             return Response::apiValidationError($validation, Input::all());
         }
 
-        $invalidSkills = [];
-
-        // Create an entry for each skill
-        foreach (Input::get('skills', array()) as $skill)
-        {
-            if (Skill::invalidSkill($skill))
-                $invalidSkills[] = $skill;
-        }
+        $invalidSkills = Skill::checkForErrors(Input::get('skills'), array());
 
         if (count($invalidSkills) > 0) {
             return Response::apiError(Lang::get('routine.invalid_skills', array('skills', implode(',', $invalidSkills))));
         }
-
-        $user = Auth::user();
 
         // Initiate a routine model based on which type they selected
         $routine = $this->routineRepository->fill(Input::only('name', 'description', 'type'));
@@ -85,31 +76,22 @@ class RoutinesController extends BaseController
         }
 
         // Save the routine and associate it to the active user
-        $user->routines()->save($routine);
+        $this->user->routines()->save($routine);
 
         // If an optional athlete was specified, create the association here
         if (Input::get('athlete_id') and ( $athlete = $this->athleteRepository->findCheckOwner(Input::get('athlete_id'))->first() )) {
 
-            $athleteRoutine = $this->athleteRoutineModel;
-            $athleteRoutine->athlete_id = $athlete->id;
+            // $athleteRoutine = $this->athleteRoutineModel;
+            // $athleteRoutine->athlete_id = $athlete->id;
 
-            $routine->athleteRoutines()->save($athleteRoutine);
+            // $routine->athleteRoutines()->save($athleteRoutine);
 
         }
 
-        $skills = new Collection();
-
-        $order = 1;
-        foreach (Input::get('skills') as $skill) {
-            $skill = $this->skillRepository->search($skill);
-
-            $routine->skills()->attach($skill, array('order_index' => $order++ ));
-
-            $skills->add($skill);
-        }
+        $skillsCollection = $routine->attachSkills(Input::get('skills'));
 
         $routinesArray = $routine->toArray();
-        $routinesArray['skills'] = $skills->toArray();
+        $routinesArray['skills'] = $skillsCollection->toArray();
 
         return $routinesArray;
 
@@ -134,20 +116,11 @@ class RoutinesController extends BaseController
      */
     public function update($id)
     {
-        $invalidSkills = [];
-
-        // Create an entry for each skill
-        foreach (Input::get('skills', array()) as $skill)
-        {
-            if (Skill::invalidSkill($skill))
-                $invalidSkills[] = $skill;
-        }
+        $invalidSkills = Skill::checkForErrors(Input::get('skills'), array());
 
         if (count($invalidSkills) > 0) {
             return Response::apiError(Lang::get('routine.invalid_skills', array('skills', implode(',', $invalidSkills))));
         }
-
-        $user = Auth::user();
 
         // Initiate a routine model based on which type they selected
         $routine = $this->routineRepository->findCheckOwner($id, $this->routineRepository->with('skills'))->first();
@@ -165,25 +138,18 @@ class RoutinesController extends BaseController
 
         $routine->save();
 
+        $skillsCollection = $routine->skills;
+
         if (Input::has('skills')) {
 
             // Remove existing skills from routine
-            $routine->skills()->detach();
+            $skillsCollection->detach();
             
-            $skills = new Collection();
-
-            $order = 1;
-            foreach (Input::get('skills') as $skill) {
-                $skill = $this->skillRepository->search($skill);
-
-                $routine->skills()->attach($skill, array('order_index' => $order++ ));
-
-                $skills->add($skill);
-            }
+            $skillsCollection = $routine->attachSkills(Input::get('skills'));
         }
 
         $routinesArray = $routine->toArray();
-        $routinesArray['skills'] = $skills->toArray();
+        $routinesArray['skills'] = $skillsCollection->toArray();
 
         return $routinesArray;
     }
