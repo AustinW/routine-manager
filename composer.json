@@ -3,22 +3,14 @@
     "description": "Routine Manager allows coaches and athletes to structure their team and keep track of routines as well as performance.",
     "license": "proprietary",
 
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/orchestral/phpseclib.git"
-        }
-    ],
-
     "require": {
         "laravel/framework": "4.1.x-dev",
-        "way/generators": "dev-master"
+        "way/generators": "dev-master",
+        "Chumper/Zipper": "dev-master"
     },
 
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "way/phpunit-wrappers": "dev-master",
-        "mockery/mockery": "dev-master@dev"
+        "barryvdh/laravel-ide-helper": "1.*"
     },
 
     "autoload": {
@@ -43,6 +35,7 @@
 
     "scripts": {
         "post-install-cmd": [
+            "php artisan ide-helper:generate",
             "php artisan optimize"
         ],
         "post-update-cmd": [

@@ -45,3 +45,8 @@ Response::macro('apiMessage', function($message, $data = array(), $code = 200)
 	), $code);
 
 });
+
+Validator::extend('csv', function($attribute, $value, $parameters)
+{
+    return (is_numeric($value) || preg_match('/\A\w+(,\w+)*\z/', str_replace(' ', '', $value)));
+});

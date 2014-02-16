@@ -19,11 +19,6 @@ Route::get('/', function()
 
 Route::get('test-pdf', function() {
 
-	// Pdfdf::fill(
-	// 	storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'comp_elite_tr.pdf',
-	// 	storage_path() . DIRECTORY_SEPARATOR . 'compcards' . DIRECTORY_SEPARATOR . 'tr.pdf'
-	// );
-
 	$pdfdf = App::make('pdfdf');
 	$athlete = Athlete::with('synchroPartner')->find(1);
 	$trc = new Compcard\TrampolineCompcard($pdfdf, $athlete, new Compcard\TrampolineCompcardMapper);
@@ -38,12 +33,20 @@ Route::get('test-pdf', function() {
 	$syn = new Compcard\SynchroCompcard($pdfdf, $athlete, new Compcard\SynchroCompcardMapper);
 	$syn->generate();
 
+	Zipper::make('austin-white-compcards.zip')->folder($athlete->name())->add(array(
+		$trc->getPdfFileName(),
+		$dmt->getPdfFileName(),
+		$tum->getPdfFileName(),
+		$syn->getPdfFileName()
+	));
+
+
 });
 
 Route::get('create-athlete', function() {
 
 	$athlete = new Athlete([
-		'usag_id' => '071720',
+		'usag_id' => '476333',
 		'first_name' => 'Dalainey',
 		'last_name' => 'Glowacki',
 		'gender' => 'female',
@@ -117,6 +120,8 @@ Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
 	Route::resource('routines', 'RoutinesController');
 
 	Route::get('routines/{routineId}/skills', 'RoutinesController@getSkills');
+
+	Route::get('compcard/download', 'CompcardController@getDownload');
 });
 
 // Route::any('bypass', function() {

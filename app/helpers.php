@@ -24,3 +24,15 @@ function set_alert($message, $title, $type, $class) {
 		'class'   => $class,
 	));
 }
+
+function csv_to_array($csv) {
+	return array_map(function($tag) {
+		return trim($tag);
+	}, str_getcsv($csv));
+}
+
+function csv_to_int_array($csv) {
+	return array_map(function($tag) {
+		return (int) trim($tag);
+	}, str_getcsv($csv));
+}

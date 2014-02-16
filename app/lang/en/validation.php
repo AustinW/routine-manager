@@ -78,6 +78,9 @@ return array(
 	*/
 
 	'custom' => array(
+		'athletes' => array(
+			'csv' => 'The :attribute field must contain a comma separated list of athlete ids',
+		),
 		'skills' => array(
 			'skills' => 'The :attribute field must contain an array of valid skills.',
 			'count'  => 'The :attribute field must contain :count items.',

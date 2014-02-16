@@ -7,6 +7,7 @@ use Routine;
 use Athlete;
 use Lang;
 use Config;
+use Exception;
 
 class SynchroCompcard extends BaseCompcard
 {
@@ -15,7 +16,7 @@ class SynchroCompcard extends BaseCompcard
 	public function __construct(Pdfdf $pdfdf, Athlete $athlete, CompcardMapper $compcardMapper)
 	{
 		if ( ! $athlete->synchroPartner) {
-			throw new Exception(Lang::get('athlete.no_synchro_partner', $athlete->name()));
+			throw new Exception(Lang::get('athlete.no_synchro_partner', array('name' => $athlete->name())));
 		}
 
 		parent::__construct($pdfdf, $athlete, $compcardMapper);

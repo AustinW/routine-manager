@@ -109,6 +109,8 @@ return array(
 
 		'Way\Generators\GeneratorsServiceProvider',
 		'Austinw\Pdfdf\PdfdfServiceProvider',
+		'Chumper\Zipper\ZipperServiceProvider',
+		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
 	),
 

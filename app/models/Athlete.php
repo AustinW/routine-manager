@@ -88,6 +88,39 @@ class Athlete extends BaseModel
 			->orWherePivot('routine_type', '=', 'tum_pass_4');
 	}
 
+	public function generateCompcards($events = array())
+	{
+		if (count($events) == 0)
+			return;
+		
+		$compcards = new Illuminate\Database\Eloquent\Collection;
+
+		foreach ($events as $event) {
+			$compcardClass = 'Compcard\\' . Str::title($event) . 'Compcard';
+			$compcardMapperClass = 'Compcard\\' . Str::title($event) . 'CompcardMapper';
+
+			$compcard = new $compcardClass(App::make('pdfdf'), $this, new $compcardMapperClass);
+
+			$compcard->generate();
+
+			$compcards->add($compcard);
+		}
+
+		return $compcards;
+	}
+
+	public function events()
+	{
+		$events = array();
+
+		if ($this->trampoline_level != null) $events[] = 'trampoline';
+		if ($this->doublemini_level != null) $events[] = 'doublemini';
+		if ($this->tumbling_level != null) $events[] = 'tumbling';
+		if ($this->synchro_level != null && $this->synchro_partner_id != 0) $events[] = 'synchro';
+
+		return $events;
+	}
+
 	public static function checkSynchroPartner(User $user, Athlete $athlete, Athlete $partner)
 	{
 		// Check if athlete's level is the same as partner's

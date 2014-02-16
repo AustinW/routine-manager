@@ -21,7 +21,7 @@ class BaseCompcard
 
 	protected $athlete;
 
-	protected $pdfSource;
+	protected $pdfSource, $pdfName, $pdfFileName;
 
 	protected $compcardType;
 
@@ -35,6 +35,10 @@ class BaseCompcard
 
 		$this->pdfSource = $this->sourceCompcard($this->compcardType);
 	}
+
+	public function setPdfFileName($value) { $this->pdfFileName = $value; }
+
+	public function getPdfFileName() { return $this->pdfFileName; }
 
 	protected function mapCompcard(array $fields)
 	{
@@ -83,6 +87,8 @@ class BaseCompcard
 
 		// Merge the fdf content with pdf
 		$this->pdfdf->generate($this->pdfSource, Str::slug($this->athlete->name() . ' ' . $this->compcardType), $fields);
+
+		$this->setPdfFileName($this->pdfdf->getFileName());
 	}
 
 	protected function mapRoutine(Routine $routine, array $fields, $routineType) {}
