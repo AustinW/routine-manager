@@ -6,7 +6,10 @@
     "require": {
         "laravel/framework": "4.1.x-dev",
         "way/generators": "dev-master",
-        "Chumper/Zipper": "dev-master"
+        "Chumper/Zipper": "dev-master",
+        "tappleby/laravel-auth-token": "0.2.*",
+        "rtablada/package-installer": "*",
+        "rtablada/eloquent-ember": "*"
     },
 
     "require-dev": {

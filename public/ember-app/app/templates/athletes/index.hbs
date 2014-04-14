@@ -1,0 +1,34 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-10">
+			
+			<table class="table table-striped table-bordered table-hover table-responsive">
+			  <thead>
+			    <tr>
+			      <th>Name</th>
+			      <th>Birthdate</th>
+			      <th>TRA</th>
+			      <th>TRS</th>
+			      <th>DMT</th>
+			      <th>TUM</th>
+			      <th>Edit</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    {{#each athlete in controller}}
+			      <tr>
+			        <td>{{#link-to 'athlete' athlete.id }}{{ athlete.fullName }}{{/link-to}}</td>
+			        <td>{{ athlete.birthday }}</td>
+			        <td>{{ athlete.trampoline_level }}</td>
+			        <td>{{ athlete.synchro_level }}</td>
+			        <td>{{ athlete.doublemini_level }}</td>
+			        <td>{{ athlete.tumbling_level }}</td>
+			        <td>Options...</td>
+			      </tr>
+			    {{/each}}
+			  </tbody>
+			</table>
+
+		</div>
+	</div>
+</div>

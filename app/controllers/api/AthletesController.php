@@ -41,7 +41,7 @@ class AthletesController extends BaseController
 	 */
 	public function index()
 	{
-		return $this->athleteRepository->where('user_id', Auth::user()->getKey())->whereNull('deleted_at')->get();
+		return $this->athleteRepository->where('user_id', Auth::user()->getKey())->whereNull('deleted_at')->get()->toEmberArray();
 	}
 
 	/**
@@ -78,7 +78,7 @@ class AthletesController extends BaseController
 	{
 		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
 
-		return ($athlete) ? $athlete : Response::apiError(Lang::get('athlete.not_found'), 404);
+		return ($athlete) ? $athlete->toEmberArray() : Response::apiError(Lang::get('athlete.not_found'), 404);
 
 	}
 
@@ -95,15 +95,17 @@ class AthletesController extends BaseController
 
 		$attributes = array_keys($this->athleteRepository->rules());
 
+		$input = Input::json()->get('athlete');
+
 		foreach ($attributes as $key) {
-			if (Input::has($key)) $athlete->$key = Input::get($key);
+			if (isset($input[$key])) $athlete->$key = $input[$key];
 		}
 
 		if ($athlete->isInvalid()) return $athlete->apiErrorResponse();
 		
 		$athlete->save();
 
-		return Response::apiMessage(Lang::get('athlete.updated', array('name' => $athlete->name())), $athlete->toArray());
+		return $athlete->toEmberArray();
 
 	}
 

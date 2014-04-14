@@ -111,6 +111,8 @@ return array(
 		'Austinw\Pdfdf\PdfdfServiceProvider',
 		'Chumper\Zipper\ZipperServiceProvider',
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+		'Tappleby\AuthToken\AuthTokenServiceProvider',
+		'Rtablada\PackageInstaller\PackageInstallerServiceProvider',
 
 	),
 
@@ -179,6 +181,9 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Pdfdf'           => 'Austinw\Pdfdf\PdfdfFacade',
+
+		'AuthToken'                       => 'Tappleby\Support\Facades\AuthToken',
+		'AuthTokenNotAuthorizedException' => 'Tappleby\AuthToken\Exceptions\NotAuthorizedException',
 
 	),
 

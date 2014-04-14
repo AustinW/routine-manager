@@ -45,7 +45,9 @@ class RoutinesController extends BaseController
 
     public function index()
     {
-        return Auth::user()->routines()->get();
+        $routines = Auth::user()->routines()->get();
+        
+        return compact('routines');
     }
 
     /**
@@ -106,7 +108,7 @@ class RoutinesController extends BaseController
     {
         $routine = $this->routineRepository->findCheckOwner($id)->first();
 
-        return ($routine) ? $routine : Response::apiError(Lang::get('routine.not_found'), 404);
+        return ($routine) ? compact('routine') : Response::apiError(Lang::get('routine.not_found'), 404);
     }
 
     /**

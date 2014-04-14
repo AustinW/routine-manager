@@ -37,6 +37,7 @@ class Athlete extends BaseModel
 		'doublemini_level' => 'in:0,8,9,10,jr,sr',
 		'tumbling_level'   => 'in:0,8,9,10,jr,sr',
 		'synchro_level'    => 'in:0,8,9,10,jr,sr',
+		'notes'            => '',
 
 		// 'tra_prelim_compulsory'   => 'exists:trampoline_routines,_id',
 		// 'tra_prelim_optional'     => 'exists:trampoline_routines,_id',

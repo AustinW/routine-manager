@@ -2,7 +2,7 @@
 
 namespace Api;
 
-use \User, \Validator, \Input, \Auth, \Response;
+use \User, \Validator, \Input, \Auth, \Response, \Lang;
 
 class AccountController extends BaseController {
 	
@@ -20,7 +20,7 @@ class AccountController extends BaseController {
 		$validation = Validator::make(Input::all(), ['email' => 'required|email', 'password' => 'required']);
 
 		if ($validation->fails()) {
-			return Response::apiError($validation);
+			return Response::apiValidationError($validation, Input::all(), Lang::get('auth.invalid'));
 		}
 
 		if (Auth::check()) {

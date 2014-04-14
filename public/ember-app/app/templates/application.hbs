@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="header">
+
+    <!-- Static navbar -->
+    <div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/" class="navbar-brand">Routine Manager</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Athletes <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>{{#link-to 'athletes.create'}}New{{/link-to}}</li>
+              <li>{{#link-to 'athletes'}}View{{/link-to}}</li>
+              <li><a href="#">Search</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Routines <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">New</a></li>
+              <li><a href="#">View</a></li>
+              <li><a href="#">Search</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compcards <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">New</a></li>
+              <li><a href="#">View</a></li>
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              {{#if session.isAuthenticated }}
+              <li><a href="#"><i class="fa fa-user"></i> <strong>{{ session.content.name }}</strong></a></li>
+              <li><a href="#" {{ action 'invalidateSession' }}><i class="fa fa-sign-out"></i> Logout</a></li>
+              {{else}}
+              <li>{{#link-to 'login' }}<i class="fa fa-sign-in"></i> Login{{/link-to}}</li>
+              <li><a href="#"><i class="fa fa-edit"></i> Register</a></li>
+              {{/if}}
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div class="container">
+    
+    {{!-- @if (Session::has('alert'))
+    <div class="alert {{ Session::get('alert.class') }}">
+      <strong>{{ Session::get('alert.title') }}</strong>
+      @if (is_array(Session::get('alert.message')))
+        <ul>
+        @foreach (Session::get('alert.message') as $message)
+          <li>{{ $message }}</li>
+        @endforeach
+        </ul>
+      @else
+      {{ Session::get('alert.message') }}
+      @endif
+    </div>
+    @endif --}}
+
+    {{!-- {{bs-alert message="A self destroyable hello world message!" type="info" dismissAfter=2 fade=true}} --}}
+
+    {{ outlet }}
+
+    {{ outlet modal }}
+
+  </div>
+
+  <div class="footer">
+    <hr>
+    <p class="pull-left">&copy; 2013 Austin White</p>
+    <p class="pull-right">
+      <a href="http://www.facebook.com/" target="_blank"><i class="icon-facebook"></i></a>
+      <a href="http://www.twitter.com/" target="_blank"><i class="icon-twitter"></i></a>
+      <a href="http://plus.google.com/" target="_blank"><i class="icon-google-plus"></i></a>
+    </p>
+  </div>
+</div>

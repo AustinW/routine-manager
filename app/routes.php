@@ -13,8 +13,9 @@
 
 Route::get('/', function()
 {
-	return View::make('home');
-
+	if (App::environment() === 'local') {
+		return File::get(public_path() . DIRECTORY_SEPARATOR . 'ember-app' . DIRECTORY_SEPARATOR . '.tmp' . DIRECTORY_SEPARATOR . 'index.html');
+	}
 });
 
 Route::get('test-pdf', function() {
@@ -39,8 +40,6 @@ Route::get('test-pdf', function() {
 		$tum->getPdfFileName(),
 		$syn->getPdfFileName()
 	));
-
-
 });
 
 Route::get('create-athlete', function() {
@@ -124,49 +123,61 @@ Route::group(array('prefix' => 'api', 'namespace' => 'Api'), function() {
 	Route::get('compcard/download', 'CompcardController@getDownload');
 });
 
-// Route::any('bypass', function() {
-// 	Auth::logout();
-// 	Auth::loginUsingId('5232521cafb0784dac0f3d0a', true);
+/*
+|--------------------------------------------------------------------------
+| Auth Token Routes
+|--------------------------------------------------------------------------
+|
+| Routes for tappleby/laravel-auth-token
+|
+*/
 
-// 	return ['status' => 'success', 'message' => 'Welcome, ' . Auth::user()->first_name];
-// });
-Route::get('attach', function() {
-	$austin = Athlete::find('525b46c94c84a35459000000');
-	$dalainey = Athlete::find('52bca9694c84a3de02000000');
-
-	$routine = Routines\TrampolineRoutine::find('526596a84c84a3f505000000');
-
-	$austin->traPrelimCompulsory()->associate($routine);
+Route::get('api/auth', 'Tappleby\AuthToken\AuthTokenController@index');
+Route::post('api/auth', 'Tappleby\AuthToken\AuthTokenController@store');
+Route::delete('api/auth', 'Tappleby\AuthToken\AuthTokenController@destroy');
 
 
+Route::post('oauth/access_token', function()
+{
+    return AuthorizationServer::performAccessTokenFlow();
 });
 
-Route::get('test/{id}', function($id) {
-	echo nl2br(print_r(Config::get('database.default'), true));
-	echo nl2br(print_r(Config::get('database'), true));
-	die();
-	dd(Config::get('database.default'), Config::get('database'));
-	$athlete = Athlete::find('525b46c94c84a35459000000');
-	$routine = $athlete->traPrelimOptional;
-	dd($routine);
-});
+Route::get('/oauth/authorize', array('before' => 'check-authorization-params|auth', function()
+{
+    // get the data from the check-authorization-params filter
+    $params = Session::get('authorize-params');
 
-Route::get('import', function() {
-	$skills = Skill::get(['name', 'trampoline_difficulty', 'doublemini_difficulty', 'tumbling_difficulty', 'fig', 'flip_direction', 'occurrence']);
+    // get the user id
+    $params['user_id'] = Auth::user()->id;
 
-	foreach ($skills as $skill) {
-		echo 'db.routine_manager.insert(' . $skill . ');'."<br />";
-	}
+    // display the authorization form
+    return View::make('authorization-form', array('params' => $params));
+}));
 
-});
+Route::post('/oauth/authorize', array('before' => 'check-authorization-params|auth|csrf', function()
+{
+    // get the data from the check-authorization-params filter
+    $params = Session::get('authorize-params');
 
-Route::options('{resource?}/{id?}/{var1?}/{var2?}', function() {
-    $response = Response::make('ok', 200);
-    $response->headers->set('Access-Control-Allow-Origin', '*');
-    $response->headers->set('Access-Control-Allow-Headers', 'X-Requested-With, Authorization');
-    return $response;
-});
+    // get the user id
+    $params['user_id'] = Auth::user()->id;
 
-Route::get('phpinfo', function() {
-	phpinfo();
-});
+    // check if the user approved or denied the authorization request
+    if (Input::get('approve') !== null) {
+
+        $code = AuthorizationServer::newAuthorizeRequest('user', $params['user_id'], $params);
+
+        Session::forget('authorize-params');
+
+        return Redirect::to(AuthorizationServer::makeRedirectWithCode($code, $params));
+    }
+
+    if (Input::get('deny') !== null) {
+
+        Session::forget('authorize-params');
+
+        return Redirect::to(AuthorizationServer::makeRedirectWithError($params));
+    }
+}));
+
+Route::get('phpinfo', function() { phpinfo(); });

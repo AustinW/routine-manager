@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Database\Eloquent\Builder;
-
-class BaseModel extends Eloquent
+class BaseModel extends Rtablada\EloquentEmber\Model
 {
     public $validation;
 
