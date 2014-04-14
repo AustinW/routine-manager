@@ -292,7 +292,7 @@ class AthletesController extends BaseController
 		), $athleteId, Auth::user());
 		
 		if ($athlete && $athlete->routines) {
-			return $athlete->routines;
+			return $athlete->routines->toEmberArray();
 		} else {
 			return Response::apiError(Lang::get('athlete.not_found', array('id' => $athleteId)), 404);
 		}
