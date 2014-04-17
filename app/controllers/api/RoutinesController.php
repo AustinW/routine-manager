@@ -47,7 +47,7 @@ class RoutinesController extends BaseController
     {
         $routines = Auth::user()->routines()->get();
         
-        return compact('routines');
+        return $routines->toEmberArray();
     }
 
     /**
@@ -108,7 +108,7 @@ class RoutinesController extends BaseController
     {
         $routine = $this->routineRepository->findCheckOwner($id)->first();
 
-        return ($routine) ? compact('routine') : Response::apiError(Lang::get('routine.not_found'), 404);
+        return ($routine) ? $routine->toEmberArray() : Response::apiError(Lang::get('routine.not_found'), 404);
     }
 
     /**

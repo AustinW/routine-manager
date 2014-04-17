@@ -63,6 +63,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         $this->attributes['password'] = Hash::make($value);
     }
 
+    public function getRememberToken()
+    {
+        return $this->remember_token;
+    }
+
+    public function setRememberToken($value)
+    {
+        $this->remember_token = $value;
+    }
+
+    public function getRememberTokenName()
+    {
+        return 'remember_token';
+    }
+
 	/**
 	 * Return a collection of athlete models for a given user.
 	 *

@@ -78,8 +78,7 @@ class AthletesController extends BaseController
 	{
 		$athlete = $this->athleteRepository->findCheckOwner($id)->first();
 
-		return ($athlete) ? $athlete->toEmberArray() : Response::apiError(Lang::get('athlete.not_found'), 404);
-
+		return $athlete->attachRoutinesToAthleteArray();
 	}
 
 	/**

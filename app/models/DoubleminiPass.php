@@ -9,6 +9,8 @@ class DoubleminiPass extends Routine
 
 	protected $table = 'routines';
 
+	protected $appends = ['difficulty'];
+
 	public static $parts = ['mounter', 'spotter', 'dismount'];
 
 	public function scopeDmtPass1($query)  { return $query->where('routine_type', '=', 'dmt_pass1'); }
@@ -25,5 +27,10 @@ class DoubleminiPass extends Routine
 	{
 		$positions = array('mounter', 'spotter', 'dismount');
 		return $positions[$index];
+	}
+
+	public function getDifficultyAttribute()
+	{
+		return $this->difficulty();
 	}
 }
