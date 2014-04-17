@@ -24,5 +24,9 @@ RoutineManagerEmber.AthleteEditController = Ember.ObjectController.extend({
             // this.transitionToRoute('athlete', this.get('model'));
         },
 
+        cancel: function() {
+            this.get('model').rollback();
+        }
+
     }
 });

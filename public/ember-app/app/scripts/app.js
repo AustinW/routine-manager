@@ -11,7 +11,8 @@ Ember.Application.initializer({
 });
 
 var RoutineManagerEmber = window.RoutineManagerEmber = Ember.Application.create({
-    LOG_TRANSITIONS: true
+    LOG_TRANSITIONS: true,
+    LOG_BINDINGS: true
 });
 
 Ember.onerror = function(error) {
@@ -19,13 +20,17 @@ Ember.onerror = function(error) {
 };
 
 /* Order and include as you please. */
+require('scripts/auth/*');
+require('scripts/adapters/*');
+require('scripts/serializers/*');
 require('scripts/controllers/*');
-require('scripts/store');
+require('scripts/controllers/trampoline/*')
+require('scripts/client');
 require('scripts/models/*');
 require('scripts/routes/*');
+require('scripts/routes/routines/*');
 require('scripts/views/*');
+require('scripts/views/trampoline/*');
 require('scripts/router');
 require('scripts/helpers');
 require('scripts/components/*');
-require('scripts/adapters/*');
-require('scripts/auth/*');

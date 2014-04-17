@@ -1,43 +1,69 @@
-/*global Ember*/
-RoutineManagerEmber.Athlete = DS.Model.extend({
-    user_id: DS.attr('number'),
-    synchro_partner_id: DS.attr('number'),
-    first_name: DS.attr('string'),
-    last_name: DS.attr('string'),
-    gender: DS.attr('string'),
-    birthday: DS.attr('string'),
-    team: DS.attr('string'),
-    trampoline_level: DS.attr('string'),
-    doublemini_level: DS.attr('string'),
-    tumbling_level: DS.attr('string'),
-    synchro_level: DS.attr('string'),
-    notes: DS.attr('string'),
-    created_at: DS.attr('date'),
-    updated_at: DS.attr('date'),
+RoutineManagerEmber.Athlete = RL.Model.extend({
+    userId: RL.attr('number'),
+    synchroPartnerId: RL.attr('number'),
+    firstName: RL.attr('string'),
+    lastName: RL.attr('string'),
+    gender: RL.attr('string'),
+    birthday: RL.attr('string'),
+    team: RL.attr('string'),
+    trampolineLevel: RL.attr('string'),
+    doubleminiLevel: RL.attr('string'),
+    tumblingLevel: RL.attr('string'),
+    synchroLevel: RL.attr('string'),
+    notes: RL.attr('string'),
+    created_at: RL.attr('date'),
+    updated_at: RL.attr('date'),
+
+    traPrelimCompulsory: RL.belongsTo('trampolineRoutine'),
+    traPrelimOptional: RL.belongsTo('trampolineRoutine'),
+    traSemiFinalOptional: RL.belongsTo('trampolineRoutine'),
+    traFinalOptional: RL.belongsTo('trampolineRoutine'),
+
+    syncFinalOptional: RL.belongsTo('trampolineRoutine'),
+    syncFinalOptional: RL.belongsTo('trampolineRoutine'),
+    syncFinalOptional: RL.belongsTo('trampolineRoutine'),
+
+    dmtPass1: RL.belongsTo('doubleMiniPass'),
+    dmtPass2: RL.belongsTo('doubleMiniPass'),
+    dmtPass3: RL.belongsTo('doubleMiniPass'),
+    dmtPass4: RL.belongsTo('doubleMiniPass'),
+
+    tumPass1: RL.belongsTo('tumblingPass'),
+    tumPass2: RL.belongsTo('tumblingPass'),
+    tumPass3: RL.belongsTo('tumblingPass'),
+    tumPass4: RL.belongsTo('tumblingPass'),
+
+    didLoad: function() {
+        // console.log("Compulsory:", this.get('traPrelimCompulsory'));
+        // console.log("Athlete: ");
+        // console.log(Ember.keys(Ember.meta(RoutineManagerEmber.Athlete.proto()).descs));
+
+        // console.log('Athlete loaded...');
+    },
 
     fullName: function() {
-        return this.get('first_name') + ' ' + this.get('last_name');
-    }.property('first_name', 'last_name'),
+        return this.get('firstName') + ' ' + this.get('lastName');
+    }.property('firstName', 'lastName'),
 
     genderClass: function() {
         return 'fa-' + this.get('gender');
     }.property('gender'),
 
     trampolineLevelLabel: function() {
-        return this.searchLevelLabel(this.get('trampoline_level'));
-    }.property('trampoline_level'),
+        return this.searchLevelLabel(this.get('trampolineLevel'));
+    }.property('trampolineLevel'),
 
     synchroLevelLabel: function() {
-        return this.searchLevelLabel(this.get('synchro_level'));
-    }.property('synchro_level'),
+        return this.searchLevelLabel(this.get('synchroLevel'));
+    }.property('synchroLevel'),
 
     doubleminiLevelLabel: function() {
-        return this.searchLevelLabel(this.get('doublemini_level'));
-    }.property('doublemini_level'),
+        return this.searchLevelLabel(this.get('doubleminiLevel'));
+    }.property('doubleminiLevel'),
 
     tumblingLevelLabel: function() {
-        return this.searchLevelLabel(this.get('tumbling_level'));
-    }.property('tumbling_level'),
+        return this.searchLevelLabel(this.get('tumblingLevel'));
+    }.property('tumblingLevel'),
 
     searchLevelLabel: function(level) {
         var levels = this.get('allLevels');

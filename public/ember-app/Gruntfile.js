@@ -241,7 +241,11 @@ module.exports = function(grunt) {
                 options: {
                     variables: {
                         ember: 'bower_components/ember/ember.js',
-                        ember_data: 'bower_components/ember-data/ember-data.js'
+                        ember_data: 'bower_components/ember-data/ember-data.js',
+                        ember_model: 'bower_components/ember-model/ember-model.js',
+                        ember_simple_auth: 'bower_components/ember-simple-auth/ember-simple-auth.js',
+                        ember_simple_oauth: 'bower_components/ember-simple-auth/ember-simple-auth-oauth2.js',
+                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js'
                     }
                 },
                 files: [{
@@ -253,7 +257,11 @@ module.exports = function(grunt) {
                 options: {
                     variables: {
                         ember: 'bower_components/ember/ember.prod.js',
-                        ember_data: 'bower_components/ember-data/ember-data.prod.js'
+                        ember_data: 'bower_components/ember-data/ember-data.prod.js',
+                        ember_model: 'bower_components/ember-model/ember-model.js',
+                        ember_simple_auth: 'bower_components/ember-simple-auth/ember-simple-auth.js',
+                        ember_simple_oauth: 'bower_components/ember-simple-auth/ember-simple-auth-oauth2.js',
+                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js'
                     }
                 },
                 files: [{

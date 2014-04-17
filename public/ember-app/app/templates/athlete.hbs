@@ -6,8 +6,8 @@
             <i {{bind-attr class=":fa genderClass"}} style="font-size:160px"></i>
           </div>
           <div class="col-sm-6 col-md-10">
-            <h1 class="athlete-header">{{ fullName }}</h1>
-            <i class="fa fa-edit athlete-edit"></i>
+            <h1 class="athlete-header">{{synchro_partner_id}}{{ fullName }}</h1>
+            {{!-- <i class="fa fa-edit athlete-edit"></i> --}}
             <p style="margin-top:20px">
               <span><i class="fa fa-group"></i> {{ team }}</span><br />
               <span><i class="fa fa-calendar"></i> {{ format-date birthday 'LL' }}</span><br />
@@ -23,30 +23,177 @@
 
       <div class="row">
         <div class="col-lg-3">
-          <h4>Trampoline</h4>
+          <h4 class="trampoline">Trampoline</h4>
           <label for="trampoline_level">Level:</label>
           {{ trampolineLevelLabel }}
         </div>
         <div class="col-lg-3">
-          <h4>Synchro</h4>
+          <h4 class="synchro">Synchro</h4>
           <label for="synchro_level">Level:</label>
           {{ synchroLevelLabel }}
         </div>
         <div class="col-lg-3">
-          <h4>Double Mini</h4>
+          <h4 class="double-mini">Double Mini</h4>
           <label for="doublemini_level">Level:</label>
           {{ doubleminiLevelLabel }}
         </div>
         <div class="col-lg-3">
-          <h4>Tumbling</h4>
+          <h4 class="tumbling">Tumbling</h4>
           <label for="tumbling_level">Level:</label>
           {{ tumblingLevelLabel }}
         </div>
       </div>
 
       <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-4">
           <h3>Routines</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-3">
+          <h4 class="trampoline">Trampoline</h4>
+
+          <dl>
+            <dt>Prelim Compulsory:</dt>
+            <dd>
+            {{#if traPrelimCompulsory }}
+              {{ traPrelimCompulsory.name }} (<strong>{{ traPrelimCompulsory.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Prelim Optional:</dt>
+            <dd>
+            {{#if traPrelimOptional }}
+              {{ traPrelimOptional.name }} (<strong>{{ traPrelimOptional.difficulty }}</strong>)</dd>
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Semi-Final Optional:</dt>
+            <dd>
+            {{#if traSemiFinalOptional }}
+              {{ traSemiFinalOptional.name }} (<strong>{{ traSemiFinalOptional.difficulty }}</strong>)</dd>
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Final Optional:</dt>
+            <dd>
+            {{#if traFinalOptional }}
+              {{ traFinalOptional.name }} (<strong>{{ traFinalOptional.difficulty }}</strong>)</dd>
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="synchro">Synchro</h4>
+          
+          <dl>
+            <dt>Prelim Compulsory:</dt>
+            <dd>
+            {{#if syncPrelimCompulsory }}
+              {{ syncPrelimCompulsory.name }} (<strong>{{ syncPrelimCompulsory.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Prelim Optional:</dt>
+            <dd>
+            {{#if syncPrelimOptional }}
+              {{ syncPrelimOptional.name }} (<strong>{{ syncPrelimOptional.difficulty }}</strong>)</dd>
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Final Optional:</dt>
+            <dd>
+            {{#if syncFinalOptional }}
+              {{ syncFinalOptional.name }} (<strong>{{ syncFinalOptional.difficulty }}</strong>)</dd>
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="double-mini">Double Mini</h4>
+
+          <dl>
+            <dt>Pass 1:</dt>
+            <dd>
+            {{#if dmtPass1 }}
+              {{ dmtPass1.name }} (<strong>{{ dmtPass1.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 2:</dt>
+            <dd>
+            {{#if dmtPass2 }}
+              {{ dmtPass2.name }} (<strong>{{ dmtPass2.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 3:</dt>
+            <dd>
+            {{#if dmtPass3 }}
+              {{ dmtPass3.name }} (<strong>{{ dmtPass3.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 4:</dt>
+            <dd>
+            {{#if dmtPass4 }}
+              {{ dmtPass4.name }} (<strong>{{ dmtPass4.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+          </dl>
+        </div>
+        <div class="col-lg-3">
+          <h4 class="tumbling">Tumbling</h4>
+          
+          <dl>
+            <dt>Pass 1:</dt>
+            <dd>
+            {{#if tumPass1 }}
+              {{ tumPass1.name }} (<strong>{{ tumPass1.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 2:</dt>
+            <dd>
+            {{#if tumPass2 }}
+              {{ tumPass2.name }} (<strong>{{ tumPass2.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 3:</dt>
+            <dd>
+            {{#if tumPass3 }}
+              {{ tumPass3.name }} (<strong>{{ tumPass3.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+            <dt>Pass 4:</dt>
+            <dd>
+            {{#if tumPass4 }}
+              {{ tumPass4.name }} (<strong>{{ tumPass4.difficulty }}</strong>)
+            {{else}}
+              None
+            {{/if}}
+            </dd>
+          </dl>
         </div>
       </div>
     </div>

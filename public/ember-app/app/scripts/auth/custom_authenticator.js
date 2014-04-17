@@ -3,8 +3,6 @@ RoutineManagerEmber.CustomAuthenticator = Ember.SimpleAuth.Authenticators.OAuth2
 
     authenticate: function(credentials) {
 
-        console.log("ASDasdfdsfasaewhrtyyjuj6565rF");
-
         var self = this;
 
         return new Ember.RSVP.Promise(function(resolve, reject) {
@@ -18,7 +16,6 @@ RoutineManagerEmber.CustomAuthenticator = Ember.SimpleAuth.Authenticators.OAuth2
                 }
             }).then(function(response) {
                 Ember.run(function() {
-                    console.log("response: ", response);
                     // resolve (including the account id) as the AJAX request was successful; all properties this promise resolves
                     // with will be available through the session
                     resolve({

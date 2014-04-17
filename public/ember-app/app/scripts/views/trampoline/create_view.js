@@ -1,9 +1,9 @@
-RoutineManagerEmber.AthleteEditView = Ember.View.extend({
+RoutineManagerEmber.TrampolineCreateView = Ember.View.extend({
 
     didInsertElement: function() {
-        this.$('#athlete-edit-modal').modal('show');
+        this.$('#trampoline-create-modal').modal('show');
 
-        this.$('#athlete-edit-modal').on('hidden.bs.modal', $.proxy(this._viewDidHide, this));
+        this.$('#trampoline-create-modal').on('hidden.bs.modal', $.proxy(this._viewDidHide, this));
     },
 
     _viewDidHide: function() {

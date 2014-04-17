@@ -18,6 +18,22 @@ html, body {
 	vertical-align:top;
 }
 
+.trampoline {
+    color: #163bc2;
+}
+
+.synchro {
+    color: #bba800;
+}
+
+.double-mini {
+    color: #00a30c;
+}
+
+.tumbling {
+    color: #a30000;
+}
+
 /* Login Form */
 
 .form-signin
@@ -94,4 +110,48 @@ html, body {
 {
     display: block;
     margin-top: 10px;
+}
+
+/**
+ * Bootstrap Sub-Menus
+ */
+.nav li.dropdown ul.dropdown-menu li:hover ul.dropdown-menu li:hover.dropdown > ul.dropdown-menu,
+.nav li.dropdown ul.dropdown-menu li:hover ul.dropdown-menu {
+    display:block;
+    position:absolute;
+    left:100%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.nav li.dropdown ul.dropdown-menu li:hover ul.dropdown-menu li.dropdown > ul.dropdown-menu, 
+.nav li.dropdown ul.dropdown-menu ul.dropdown-menu {
+    display: none;
+    float:right;
+    position: relative;
+    top: auto;
+    margin-top: -30px;
+}
+
+.nav li.dropdown ul.dropdown-menu .dropdown-menu::before {
+    content: '';
+    display: inline-block;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent; 
+    border-right:7px solid #CCC;
+    border-right-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 9px;
+    left: -14px;
+}
+
+.nav li.dropdown ul.dropdown-menu .dropdown-menu::after {
+    content: '';
+    display: inline-block;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent; 
+    border-right:6px solid white;
+    position: absolute;
+    top: 10px;
+    left: -12px;
 }
