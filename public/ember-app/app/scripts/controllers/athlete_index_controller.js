@@ -1,3 +1,3 @@
-RoutineManagerEmber.AthleteController = Ember.ObjectController.extend({
+App.AthleteController = Ember.ObjectController.extend({
 
 });

@@ -1,3 +1,3 @@
-RoutineManagerEmber.Client = RL.Client.create({
-    adapter: RoutineManagerEmber.RESTAdapter
+App.Client = RL.Client.create({
+    adapter: App.RESTAdapter
 });

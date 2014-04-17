@@ -1,5 +1,5 @@
 // the custom authorizer that authorizes requests against the custom server
-RoutineManagerEmber.CustomAuthorizer = Ember.SimpleAuth.Authorizers.Base.extend({
+App.CustomAuthorizer = Ember.SimpleAuth.Authorizers.Base.extend({
     authorize: function(jqXHR, requestOptions) {
 
         if (this.get('session.isAuthenticated') && !Ember.isEmpty(this.get('session.token'))) {

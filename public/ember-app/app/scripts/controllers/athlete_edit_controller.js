@@ -1,4 +1,4 @@
-RoutineManagerEmber.AthleteEditController = Ember.ObjectController.extend({
+App.AthleteEditController = Ember.ObjectController.extend({
     needs: 'athlete',
 
     genders: ['male', 'female'],

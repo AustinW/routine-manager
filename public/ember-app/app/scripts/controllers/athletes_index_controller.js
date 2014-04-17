@@ -1,2 +1,1 @@
-RoutineManagerEmber.AthletesIndexController = Ember.ArrayController.extend({
-});
+App.AthletesIndexController = Ember.ArrayController.extend({});

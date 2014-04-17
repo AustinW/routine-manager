@@ -1,1 +1,1 @@
-RoutineManagerEmber.AthleteView = Ember.View.extend({});
+App.AthleteView = Ember.View.extend({});

@@ -1,4 +1,4 @@
-RoutineManagerEmber.CalendarDatePickerComponent = Ember.Component.extend({
+App.CalendarDatePickerComponent = Ember.Component.extend({
     tagName: 'div',
 
     classNames: ['input-group'],

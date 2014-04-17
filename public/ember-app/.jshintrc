@@ -15,7 +15,7 @@
     "trailing": false,
     "smarttabs": true,
     "globals": {
-        "RoutineManagerEmber": true,
+        "App": true,
         "jQuery": true,
         "Ember": true,
         "Handlebars": true,

@@ -1,4 +1,4 @@
-RoutineManagerEmber.TrampolineRoutine = RL.Model.extend({
+App.TrampolineRoutine = RL.Model.extend({
     user_id: RL.attr('number'),
     type: RL.attr('string'),
     name: RL.attr('string'),
@@ -13,7 +13,7 @@ RoutineManagerEmber.TrampolineRoutine = RL.Model.extend({
 });
 
 // probably should be mixed-in...
-RoutineManagerEmber.TrampolineRoutine.reopen({
+App.TrampolineRoutine.reopen({
     attributes: function() {
         var model = this;
         return Ember.keys(this.get('data')).map(function(key) {

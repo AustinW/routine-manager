@@ -1,4 +1,4 @@
-RoutineManagerEmber.DoubleMiniPass = RL.Model.extend({
+App.DoubleMiniPass = RL.Model.extend({
     user_id: RL.attr('number'),
     type: RL.attr('string'),
     name: RL.attr('string'),
@@ -13,7 +13,7 @@ RoutineManagerEmber.DoubleMiniPass = RL.Model.extend({
 });
 
 // probably should be mixed-in...
-RoutineManagerEmber.DoubleMiniPass.reopen({
+App.DoubleMiniPass.reopen({
     attributes: function() {
         var model = this;
         return Ember.keys(this.get('data')).map(function(key) {

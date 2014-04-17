@@ -1,4 +1,4 @@
-RoutineManagerEmber.AthletesController = Ember.ObjectController.extend({
+App.AthletesController = Ember.ObjectController.extend({
     title: 'Athletes',
 
 

@@ -1,4 +1,4 @@
-RoutineManagerEmber.CustomAuthenticator = Ember.SimpleAuth.Authenticators.OAuth2.extend({
+App.CustomAuthenticator = Ember.SimpleAuth.Authenticators.OAuth2.extend({
     tokenEndpoint: 'api/auth',
 
     authenticate: function(credentials) {

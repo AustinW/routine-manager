@@ -1,4 +1,4 @@
-// RoutineManagerEmber.TrampolineRoutineSerializer = DS.RESTSerializer.extend({
+// App.TrampolineRoutineSerializer = DS.RESTSerializer.extend({
 //     serializePolymorphicType: function(record, json, relationship) {
 //         console.log("ASSDFDS");
 //         var key = relationship.key,

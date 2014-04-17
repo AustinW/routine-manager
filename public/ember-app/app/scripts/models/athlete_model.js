@@ -1,4 +1,4 @@
-RoutineManagerEmber.Athlete = RL.Model.extend({
+App.Athlete = RL.Model.extend({
     userId: RL.attr('number'),
     synchroPartnerId: RL.attr('number'),
     firstName: RL.attr('string'),
@@ -36,7 +36,7 @@ RoutineManagerEmber.Athlete = RL.Model.extend({
     didLoad: function() {
         // console.log("Compulsory:", this.get('traPrelimCompulsory'));
         // console.log("Athlete: ");
-        // console.log(Ember.keys(Ember.meta(RoutineManagerEmber.Athlete.proto()).descs));
+        // console.log(Ember.keys(Ember.meta(App.Athlete.proto()).descs));
 
         // console.log('Athlete loaded...');
     },
@@ -128,7 +128,7 @@ RoutineManagerEmber.Athlete = RL.Model.extend({
 
 
 // probably should be mixed-in...
-RoutineManagerEmber.Athlete.reopen({
+App.Athlete.reopen({
     attributes: function() {
         var model = this;
         return Ember.keys(this.get('data')).map(function(key) {
@@ -141,7 +141,7 @@ RoutineManagerEmber.Athlete.reopen({
     }.property()
 });
 
-RoutineManagerEmber.Athlete.FIXTURES = [{
+App.Athlete.FIXTURES = [{
     "id": "1",
     "user_id": "1",
     "synchro_partner_id": "2",

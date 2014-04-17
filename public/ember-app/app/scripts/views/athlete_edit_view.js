@@ -1,4 +1,4 @@
-RoutineManagerEmber.AthleteEditView = Ember.View.extend({
+App.AthleteEditView = Ember.View.extend({
 
     didInsertElement: function() {
         this.$('#athlete-edit-modal').modal('show');

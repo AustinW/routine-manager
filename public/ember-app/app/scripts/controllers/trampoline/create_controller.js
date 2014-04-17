@@ -1,3 +1,3 @@
-RoutineManagerEmber.TrampolineCreateController = Ember.ObjectController.extend({
+App.TrampolineCreateController = Ember.ObjectController.extend({
 
 });

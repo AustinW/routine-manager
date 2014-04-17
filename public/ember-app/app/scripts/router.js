@@ -1,4 +1,4 @@
-RoutineManagerEmber.Router.map(function() {
+App.Router.map(function() {
 
     // /athletes
     this.resource('athletes', function() {

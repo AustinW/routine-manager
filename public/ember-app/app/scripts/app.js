@@ -1,8 +1,8 @@
 Ember.Application.initializer({
     name: 'authentication',
     initialize: function(container, application) {
-        container.register('authenticator:custom', RoutineManagerEmber.CustomAuthenticator);
-        container.register('authorizer:custom', RoutineManagerEmber.CustomAuthorizer)
+        container.register('authenticator:custom', App.CustomAuthenticator);
+        container.register('authorizer:custom', App.CustomAuthorizer)
 
         Ember.SimpleAuth.setup(container, application, {
             authorizerFactory: 'authorizer:custom'
@@ -10,7 +10,7 @@ Ember.Application.initializer({
     }
 });
 
-var RoutineManagerEmber = window.RoutineManagerEmber = Ember.Application.create({
+var App = window.App = Ember.Application.create({
     LOG_TRANSITIONS: true,
     LOG_BINDINGS: true
 });

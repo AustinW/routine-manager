@@ -1,1 +1,1 @@
-RoutineManagerEmber.TrampolineCreateRoute = Ember.Route.extend({});
+App.TrampolineCreateRoute = Ember.Route.extend({});

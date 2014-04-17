@@ -1,4 +1,4 @@
-RoutineManagerEmber.TrampolineCreateView = Ember.View.extend({
+App.TrampolineCreateView = Ember.View.extend({
 
     didInsertElement: function() {
         this.$('#trampoline-create-modal').modal('show');
