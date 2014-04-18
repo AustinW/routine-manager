@@ -7,19 +7,19 @@ App.TrampolineCreateView = Ember.View.extend({
     },
 
     _viewDidHide: function() {
-        this.controller.send('cancel');
-        this.get('controller').transitionToRoute('athlete', this.get('controller').get('model'));
+        this.get('controller').transitionToRoute('/');
     },
 
     actions: {
         save: function() {
+            console.log(this.controller);
             this.controller.send('save');
 
             this.$('.close').click();
         },
 
         cancel: function() {
-            this.controller.send('cancel');
+            // this.controller.send('cancel');
 
             this.$('.close').click();
         }

@@ -34,3 +34,4 @@ require('scripts/views/trampoline/*');
 require('scripts/router');
 require('scripts/helpers');
 require('scripts/components/*');
+require('scripts/transforms/*');

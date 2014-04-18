@@ -3,8 +3,6 @@
 use \App;
 use \SkillAnalysis;
 
-use Illuminate\Database\Eloquent\Collection;
-
 class Routine extends \BaseModel
 {
 
@@ -67,7 +65,7 @@ class Routine extends \BaseModel
 
 	public function attachSkills(array $skills)
 	{
-		$skillsCollection = new Collection();
+		$skillsCollection = new Illuminate\Database\Eloquent\Collection();
 
         $order = 1;
         foreach ($skills as $skill) {
@@ -78,7 +76,7 @@ class Routine extends \BaseModel
             $skillsCollection->add($skill);
         }
 
-        return $skills;
+        return $skillsCollection;
 	}
 
 	public function analyzeSkills()

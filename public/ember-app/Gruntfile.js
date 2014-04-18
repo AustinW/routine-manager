@@ -38,7 +38,7 @@ module.exports = function(grunt) {
                 tasks: ['compass:server']
             },
             neuter: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/scripts/**/*.js'],
                 tasks: ['neuter']
             },
             livereload: {
@@ -245,7 +245,8 @@ module.exports = function(grunt) {
                         ember_model: 'bower_components/ember-model/ember-model.js',
                         ember_simple_auth: 'bower_components/ember-simple-auth/ember-simple-auth.js',
                         ember_simple_oauth: 'bower_components/ember-simple-auth/ember-simple-auth-oauth2.js',
-                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js'
+                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js',
+                        ember_easyForm: 'bower_components/ember-easyForm/index.js'
                     }
                 },
                 files: [{
@@ -261,7 +262,8 @@ module.exports = function(grunt) {
                         ember_model: 'bower_components/ember-model/ember-model.js',
                         ember_simple_auth: 'bower_components/ember-simple-auth/ember-simple-auth.js',
                         ember_simple_oauth: 'bower_components/ember-simple-auth/ember-simple-auth-oauth2.js',
-                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js'
+                        ember_restless: 'bower_components/ember-restless/dist/ember-restless.js',
+                        ember_easyForm: 'bower_components/ember-easyForm/index.js'
                     }
                 },
                 files: [{

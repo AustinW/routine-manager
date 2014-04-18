@@ -17,73 +17,88 @@
           </div>
 
           <div class="form-group">
-            <label for="last_name" class="col-sm-4 control-label">test</label>
+            <label class="col-sm-4 control-label">Skill 1:</label>
             <div class="col-sm-8">
-              {{ input valueBinding='model.last_name' class="form-control"}}
+              {{ input value=skill1 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="last_name" class="col-sm-4 control-label"><i {{bind-attr class=gender_icon }}></i> Gender</label>
+            <label class="col-sm-4 control-label">Skill 2:</label>
             <div class="col-sm-8">
-              {{ view Ember.Select content=genders valueBinding='model.gender' class="form-control" }}
+              {{ input value=skill2 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="last_name" class="col-sm-4 control-label">Birthday</label>
+            <label class="col-sm-4 control-label">Skill 3:</label>
             <div class="col-sm-8">
-              {{ calendar-date-picker valueBinding='model.birthday' }}
+              {{ input value=skill3 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="team" class="col-sm-4 control-label">Team</label>
+            <label class="col-sm-4 control-label">Skill 4:</label>
             <div class="col-sm-8">
-              {{ input valueBinding='model.team' class="form-control"}}
+              {{ input value=skill4 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="trampoline_level" class="col-sm-4 control-label">Trampoline Level</label>
+            <label class="col-sm-4 control-label">Skill 5:</label>
             <div class="col-sm-8">
-              {{ view Ember.Select content=model.allLevels optionValuePath='content.key' optionLabelPath='content.value' valueBinding='model.trampoline_level' class="form-control" }}
+              {{ input value=skill5 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="synchro_level" class="col-sm-4 control-label">Synchro Level</label>
+            <label class="col-sm-4 control-label">Skill 6:</label>
             <div class="col-sm-8">
-              {{ view Ember.Select content=model.allLevels optionValuePath='content.key' optionLabelPath='content.value' valueBinding='model.synchro_level' class="form-control" }}
+              {{ input value=skill6 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="doublemini_level" class="col-sm-4 control-label">Double Mini Level</label>
+            <label class="col-sm-4 control-label">Skill 7:</label>
             <div class="col-sm-8">
-              {{ view Ember.Select content=model.allLevels optionValuePath='content.key' optionLabelPath='content.value' valueBinding='model.doublemini_level' class="form-control" }}
+              {{ input value=skill7 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="tumbling_level" class="col-sm-4 control-label">Tumbling Level</label>
+            <label class="col-sm-4 control-label">Skill 8:</label>
             <div class="col-sm-8">
-              {{ view Ember.Select content=model.allLevels optionValuePath='content.key' optionLabelPath='content.value' valueBinding='model.tumbling_level' class="form-control" }}
+              {{ input value=skill8 class="form-control" }}
             </div>
           </div>
 
           <div class="form-group">
-            <label for="notes" class="col-sm-4 control-label">Notes</label>
+            <label class="col-sm-4 control-label">Skill 9:</label>
             <div class="col-sm-8">
-              {{ textarea valueBinding='model.notes' class="form-control" }}
+              {{ input value=skill9 class="form-control" }}
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Skill 10:</label>
+            <div class="col-sm-8">
+              {{ input value=skill10 class="form-control" }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="col-sm-4 control-label">Description</label>
+            <div class="col-sm-8">
+              {{ textarea value=description class="form-control" }}
+            </div>
+          </div>
+
         </form>
       </div>    
 
       <div class="modal-footer">
         <button type="button" {{ action 'cancel' target='view'}} class="btn btn-danger">Cancel</button>
-        <button type="button" {{ action 'save' target='view'}} class="btn btn-primary">Edit {{ model.fullName }}</button>
+        <button type="button" {{ action 'save' target='view'}} class="btn btn-primary">Save {{name}}</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

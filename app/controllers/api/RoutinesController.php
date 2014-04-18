@@ -36,6 +36,7 @@ class RoutinesController extends BaseController
 
     public function __construct(Skill $skillRepository, Athlete $athleteRepository, Routine $routineRepository)
     {
+        parent::__construct();
         $this->beforeFilter('auth');
 
         $this->skillRepository   = $skillRepository;
@@ -57,20 +58,26 @@ class RoutinesController extends BaseController
      */
     public function store()
     {
-        $validation = Validator::make(Input::only('skills'), array('skills' => 'required'));
+        $input = Input::json()->get('routine');
+
+        $validation = Validator::make($input, array('skills' => 'required'));
 
         if ($validation->fails()) {
             return Response::apiValidationError($validation, Input::all());
         }
 
-        $invalidSkills = Skill::checkForErrors(Input::get('skills'), array());
+        $invalidSkills = Skill::checkForErrors(array_get($input, 'skills'));
 
         if (count($invalidSkills) > 0) {
             return Response::apiError(Lang::get('routine.invalid_skills', array('skills', implode(',', $invalidSkills))));
         }
 
         // Initiate a routine model based on which type they selected
-        $routine = $this->routineRepository->fill(Input::only('name', 'description', 'type'));
+        $routine = $this->routineRepository->fill([
+            'name'        => array_get($input, 'name'),
+            'description' => array_get($input, 'description'),
+            'type'        => array_get($input, 'type')
+        ]);
 
         // Ensure the model is valid
         if ($routine->isInvalid()) {
@@ -90,7 +97,7 @@ class RoutinesController extends BaseController
 
         }
 
-        $skillsCollection = $routine->attachSkills(Input::get('skills'));
+        $skillsCollection = $routine->attachSkills(array_get($input, 'skills'));
 
         $routinesArray = $routine->toArray();
         $routinesArray['skills'] = $skillsCollection->toArray();

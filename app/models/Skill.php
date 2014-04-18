@@ -16,6 +16,8 @@ class Skill extends BaseModel
 
     public static function validSkill($skill)
     {
+        if (empty($skill)) return false;
+
         // First let's check if the skill exists as a written name in Redis for fast lookup
         if (Redis::hget(self::REDIS_SKILL_NAME . self::massageNameString($skill), '_id') !== null) {
             return true;
@@ -47,8 +49,8 @@ class Skill extends BaseModel
 
     public static function search($skill)
     {
-        return static::where('name', $this->massageNameString($skill))
-            ->orWhere('fig', $this->massageFigString($skill))
+        return static::where('name', self::massageNameString($skill))
+            ->orWhere('fig', self::massageFigString($skill))
             ->first();
     }
 
