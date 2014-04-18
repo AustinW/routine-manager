@@ -37,6 +37,7 @@ class RoutinesController extends BaseController
     public function __construct(Skill $skillRepository, Athlete $athleteRepository, Routine $routineRepository)
     {
         parent::__construct();
+
         $this->beforeFilter('auth');
 
         $this->skillRepository   = $skillRepository;
@@ -46,9 +47,25 @@ class RoutinesController extends BaseController
 
     public function index()
     {
+        if (Input::get('type')) {
+            return $this->routinesOfType(Input::get('type'));
+        }
+
         $routines = Auth::user()->routines()->get();
         
         return $routines->toEmberArray();
+    }
+
+    public function routinesOfType($type)
+    {
+        $routines = $this->routineRepository
+            ->with('skills')
+            ->where('type', $type)
+            ->where('user_id', $this->user->getKey())
+            ->get()
+            ->toArray();
+
+        return compact('routines');
     }
 
     /**

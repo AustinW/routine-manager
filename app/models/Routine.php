@@ -8,7 +8,9 @@ class Routine extends \BaseModel
 
 	protected $softDelete = true;
 
-	protected $fillable = array('name', 'description', 'type');
+	protected $fillable = ['name', 'description', 'type'];
+
+	protected $appends = ['difficulty'];
 
 	public static $whichRoutineFields = [
 		'tra_prelim_compulsory',
@@ -47,7 +49,13 @@ class Routine extends \BaseModel
 	*/
 	public function user()     { return $this->belongsTo('User'); }
 	public function athletes() { return $this->belongsToMany('Athlete', 'athlete_routines', 'athlete_id', 'routine_id'); }
-	public function skills()   { return $this->belongsToMany('Skill', 'routine_skill', 'routine_id', 'skill_id')->withPivot('order_index'); }
+	
+	public function skills()
+	{
+		return $this->belongsToMany('Skill', 'routine_skill', 'routine_id', 'skill_id')
+			->withPivot('order_index')
+			->orderBy('routine_skill.order_index', 'asc');
+	}
 
 	// Trampoline scoped queries
 	public function scopeTraPrelimCompulsory($query)  { return $query->where('routine_type', '=', 'tra_prelim_compulsory'); }
@@ -190,5 +198,10 @@ class Routine extends \BaseModel
 		));
 
 		return $descriptions[$routineType];
+	}
+
+	public function getDifficultyAttribute()
+	{
+		return $this->eventDifficulty($this->type);
 	}
 }
