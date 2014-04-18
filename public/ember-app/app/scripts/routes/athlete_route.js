@@ -1,7 +1,11 @@
 App.AthleteRoute = Ember.Route.extend({
     model: function(params) {
-        var athlete = this.get('store').find('athlete', params.athlete_id);
-        console.log(athlete.get('tra_prelim_compulsory'));
-        return athlete;
+        return this.get('store').find('athlete', params.athlete_id);
+    },
+
+    actions: {
+        showEditAthlete: function(athlete_id) {
+            this.transitionTo('athlete.edit', athlete_id);
+        }
     }
 });

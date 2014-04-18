@@ -17,15 +17,19 @@ App.Router.map(function() {
     this.resource('routines', function() {
 
         // /routines/trampoline
-        this.resource('trampoline', function() {
+        this.resource('routines.trampoline', {
+            path: '/trampoline'
+        }, function() {
+
+            // /routines/trampoline/:routine_id
+            this.resource('routines.trampoline.specific', {
+                path: '/:routine_id'
+            });
 
             // /routines/trampoline/create
             this.route('create');
         });
 
-        this.resource('synchro');
-        this.resource('doublemini');
-        this.resource('tumbling');
     });
 
     this.route('login');

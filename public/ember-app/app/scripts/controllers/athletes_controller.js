@@ -1,5 +1,1 @@
-App.AthletesController = Ember.ObjectController.extend({
-    title: 'Athletes',
-
-
-});
+App.AthletesController = Ember.ObjectController.extend({});

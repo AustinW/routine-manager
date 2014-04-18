@@ -1,23 +1,35 @@
 App.ApplicationRoute = Ember.Route.extend(Ember.SimpleAuth.ApplicationRouteMixin, {
     actions: {
-        showEditAthlete: function() {
-            this.transitionTo('athlete.edit');
-        },
-
         showCreateTrampolineRoutine: function() {
-            this.transitionTo('trampoline.create');
+            this.transitionTo('routines.trampoline.create');
         },
 
         showCreateSynchroRoutine: function() {
-            this.transitionTo('synchro.create');
+            this.transitionTo('routines.synchro.create');
         },
 
         showCreateDoubleMiniRoutine: function() {
-            this.transitionTo('doublemini.create');
+            this.transitionTo('routines.doublemini.create');
         },
 
         showCreateTumblingRoutine: function() {
-            this.transitionTo('tumbling.create');
+            this.transitionTo('routines.tumbling.create');
+        },
+
+        showTrampolineRoutines: function() {
+            this.transitionTo('routines.trampoline');
+        },
+
+        showSynchroRoutines: function() {
+            this.transitionTo('routines.synchro');
+        },
+
+        showDoubleMiniRoutines: function() {
+            this.transitionTo('routines.doublemini');
+        },
+
+        showTumblingRoutines: function() {
+            this.transitionTo('routines.tumbling');
         }
     }
 

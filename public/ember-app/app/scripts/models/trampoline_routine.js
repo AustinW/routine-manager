@@ -6,6 +6,9 @@ App.TrampolineRoutine = RL.Model.extend({
     name: RL.attr('string'),
     skills: RL.attr('array'),
     description: RL.attr('string'),
+    difficulty: RL.attr('number', {
+        readOnly: true
+    }),
     locked: RL.attr('number'),
     deleted_at: RL.attr('date'),
     created_at: RL.attr('date'),

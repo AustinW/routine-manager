@@ -12,7 +12,8 @@ Ember.Application.initializer({
 
 var App = window.App = Ember.Application.create({
     LOG_TRANSITIONS: true,
-    LOG_BINDINGS: true
+    LOG_BINDINGS: true,
+    DEBUG: true
 });
 
 Ember.onerror = function(error) {
@@ -30,7 +31,7 @@ require('scripts/models/*');
 require('scripts/routes/*');
 require('scripts/routes/routines/*');
 require('scripts/views/*');
-require('scripts/views/trampoline/*');
+require('scripts/views/routines/*');
 require('scripts/router');
 require('scripts/helpers');
 require('scripts/components/*');
